@@ -1,9 +1,8 @@
 # TODO:
 # - use external libraries if possible (sigc++1 and gtkmm1)
-# - am/ac stuff
 # - pl descs
 # - .desktop
-# - check BR (ladspa - is it really needed at comile time?)
+# - check BR (ladspa - is it really needed at compile time?)
 #
 %define		_beta beta2
 Summary:	Multitrack hard disk recorder
@@ -41,7 +40,7 @@ non-destructive, non-linear editor, LADSPA plugins.
 %setup -q -n %{name}-%{version}%{_beta}
 
 %build
-# ksi dosen't build for a moment
+# ksi doesn't build for a moment
 %configure \
 	--disable-ksi
 
