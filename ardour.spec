@@ -18,6 +18,7 @@ BuildRequires:	XFree86-devel
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	alsa-lib-devel >= 0.9.0
+BuildRequires:	gettext-devel
 BuildRequires:	gtk+-devel >= 1.0.0
 #BuildRequires:	gtk-canvas-devel >= 0.1
 BuildRequires:	gtkmm1-devel >= 1.2.6
