@@ -1,0 +1,20 @@
+--- ardour-0.9beta7/libs/ardour/Makefile.am.orig	2003-06-17 14:12:15.000000000 +0200
++++ ardour-0.9beta7/libs/ardour/Makefile.am	2004-01-05 23:15:14.483459312 +0100
+@@ -9,7 +9,7 @@
+ 
+ SUBDIRS = intl po ardour
+ 
+-SOURCES = \
++lSOURCES = \
+    audioengine.cc \
+    audio_library.cc \
+    audio_track.cc \
+@@ -70,7 +70,7 @@
+ foodir = $(datadir)/ardour
+ foo_LTLIBRARIES = libardour.la
+ libardour_la_LIBADD = @RTMALLOCDBG@
+-libardour_la_SOURCES = $(SOURCES)
++libardour_la_SOURCES = $(lSOURCES)
+ 
+ EXTRA_DIST = libardour.pc.in i18n.h gettext.h
+ 
