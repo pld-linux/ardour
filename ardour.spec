@@ -21,7 +21,7 @@ BuildRequires:	alsa-lib-devel >= 0.9.0
 BuildRequires:	gtk+-devel >= 1.0.0
 #BuildRequires:	gtk-canvas-devel >= 0.1
 BuildRequires:	gtkmm1-devel >= 1.2.6
-BuildRequires:	jack-audio-connection-kit-devel >= 0.91.0
+BuildRequires:	jack-audio-connection-kit-devel >= 0.98.0
 BuildRequires:	libart_lgpl >= 2.3
 BuildRequires:	libpng-devel
 BuildRequires:	liblrdf-devel >= 0.3.0
