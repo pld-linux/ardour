@@ -13,6 +13,7 @@ Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
 Patch2:		%{name}-ac_cleanup.patch
 Patch3:		%{name}-am18.patch
+Patch4:		%{name}-nptl_fix.patch
 URL:		http://ardour.sourceforge.net/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf >= 2.50
@@ -52,6 +53,7 @@ MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 install -d m4
 # extract AM_BUILD_ENVIRONMENT (patched!)
