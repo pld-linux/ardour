@@ -1,17 +1,18 @@
-%define		_beta beta7
 Summary:	Multitrack hard disk recorder
 Summary(pl):	Wieloscie¿kowy magnetofon nagrywaj±cy na twardym dysku
 Name:		ardour
 Version:	0.9
+%define	 _beta	beta8
 Release:	0.%{_beta}.1
 License:	GPL
 Group:		X11/Applications/Sound
 Source0:	http://dl.sourceforge.net/ardour/%{name}-%{version}%{_beta}.tar.bz2
-# Source0-md5:	f71e65cbc965fc9b4f90d563298fef8d
+# Source0-md5:	fc52ac975ab673fad57be5fbcdeacf91
 Source1:	%{name}.desktop
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
 Patch2:		%{name}-ac_cleanup.patch
+Patch3:		%{name}-am18.patch
 URL:		http://ardour.sourceforge.net/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf >= 2.50
@@ -50,6 +51,7 @@ MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 install -d m4
 # extract AM_BUILD_ENVIRONMENT (patched!)
