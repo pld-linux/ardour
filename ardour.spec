@@ -2,12 +2,12 @@ Summary:	Multitrack hard disk recorder
 Summary(pl):	Wieloscie¿kowy magnetofon nagrywaj±cy na twardym dysku
 Name:		ardour
 Version:	0.9
-%define	 _beta	beta8
+%define	 _beta	beta9.1
 Release:	0.%{_beta}.1
 License:	GPL
 Group:		X11/Applications/Sound
 Source0:	http://dl.sourceforge.net/ardour/%{name}-%{version}%{_beta}.tar.bz2
-# Source0-md5:	fc52ac975ab673fad57be5fbcdeacf91
+# Source0-md5:	411deff954d269b70a330f2718c5674a
 Source1:	%{name}.desktop
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
@@ -21,7 +21,7 @@ BuildRequires:	alsa-lib-devel >= 0.9.0
 BuildRequires:	gtk+-devel >= 1.0.0
 #BuildRequires:	gtk-canvas-devel >= 0.1
 BuildRequires:	gtkmm1-devel >= 1.2.6
-BuildRequires:	jack-audio-connection-kit-devel >= 0.80.0
+BuildRequires:	jack-audio-connection-kit-devel >= 0.91.0
 BuildRequires:	libart_lgpl >= 2.3
 BuildRequires:	libpng-devel
 BuildRequires:	liblrdf-devel >= 0.3.0
