@@ -5,7 +5,7 @@
  ARDOUR_TOP=`cd $ARDOUR_TOP; pwd`
  
 -export LIBDIRS="sigc++ pbd soundtouch midi++ ardour gtkmm gtkmmext gtk-canvas"
-+export LIBDIRS="pbd soundtouch midi++ ardour gtkmmext gtk-canvas"
++export LIBDIRS="pbd soundtouch midi++ ardour gtkmmext"
  
  ACLOCAL_FLAGS="-I $ARDOUR_TOP/aclocal"
  ACLOCAL_AMFLAGS="-I $ARDOUR_TOP/aclocal `if test -d m4 ; then echo -I m4; fi`"
@@ -21,8 +21,8 @@
 -LIBS="$LIBS $ARDOUR_TOP/libs/soundtouch/libsoundtouch.a $ARDOUR_TOP/libs/midi++/libmidipp.a $ARDOUR_TOP/libs/pbd/libpbd.a $ARDOUR_TOP/libs/sigc++/sigc++/libsigc.a"
 +BASE_LIBS="$ARDOUR_TOP/libs/midi++/libmidipp.a $ARDOUR_TOP/libs/pbd/libpbd.a `sigc-config --libs`"
 +BASE_INCLUDES="`sigc-config --cflags` -I$ARDOUR_TOP/libs/pbd -I$ARDOUR_TOP/libs/midi++ -I$ARDOUR_TOP/libs/ardour -I$ARDOUR_TIP/libs/soundtouch"
-+GUI_LIBS="$ARDOUR_TOP/libs/gtkmmext/libgtkmmext.a $ARDOUR_TOP/libs/midi++/libmidipp.a $ARDOUR_TOP/libs/gtk-canvas/libgtk-canvas.a `gtkmm-config --libs`"
-+GUI_INCLUDES="-I$ARDOUR_TOP/libs/ -I$ARDOUR_TOP/libs/gtk-canvas -I$ARDOUR_TOP/libs/gtk-canvas/gtk-canvas -I$ARDOUR_TOP/libs/gtkmmext `gtkmm-config --cflags`"
++GUI_LIBS="$ARDOUR_TOP/libs/gtkmmext/libgtkmmext.a $ARDOUR_TOP/libs/midi++/libmidipp.a -lgtk-canvas `gtkmm-config --libs`"
++GUI_INCLUDES="-I$ARDOUR_TOP/libs/ -I$ARDOUR_TOP/libs/gtkmmext `gtkmm-config --cflags`"
 +CFLAGS="$CFLAGS `sigc-config --cflags` -I$ARDOUR_TOP/libs/pbd -I$ARDOUR_TOP/libs/midi++ -I$ARDOUR_TOP/libs/ardour -I$ARDOUR_TOP/libs/soundtouch"
 +CXXFLAGS="$CXXFLAGS `sigc-config --cflags` -I$ARDOUR_TOP/libs/pbd -I$ARDOUR_TOP/libs/midi++ -I$ARDOUR_TOP/libs/ardour -I$ARDOUR_TOP/libs/soundtouch"
 +LIBS="$LIBS $ARDOUR_TOP/libs/soundtouch/libsoundtouch.a $ARDOUR_TOP/libs/midi++/libmidipp.a $ARDOUR_TOP/libs/pbd/libpbd.a `sigc-config --libs`"
@@ -39,7 +39,7 @@
  
  if test x$WITH_GTK_GUI != x ; then
 -   AC_CONFIG_SUBDIRS(gtkmm gtkmmext gtk-canvas)
-+   AC_CONFIG_SUBDIRS(gtkmmext gtk-canvas)
++   AC_CONFIG_SUBDIRS(gtkmmext)
  fi
  
  if test x$WITH_VST_WIN != x ; then
