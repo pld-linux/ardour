@@ -1,0 +1,11 @@
+diff -aurN ardour-0.9beta9.1.orig/libs/pbd/pthread_utils.cc ardour-0.9beta9.1/libs/pbd/pthread_utils.cc
+--- ardour-0.9beta9.1.orig/libs/pbd/pthread_utils.cc	2003-04-16 14:17:03.000000000 +0200
++++ ardour-0.9beta9.1/libs/pbd/pthread_utils.cc	2004-02-12 21:04:49.433392736 +0100
+@@ -23,6 +23,7 @@
+ #include <string>
+ 
+ #include <pbd/pthread_utils.h>
++#include <signal.h>
+ 
+ using std::string;
+ using std::cerr;
