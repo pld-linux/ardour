@@ -1,16 +1,14 @@
-# TODO:
-# - .desktop
-#
 %define		_beta beta2
 Summary:	Multitrack hard disk recorder
 Summary(pl):	Wieloscie¿kowy magnetofon nagrywaj±cy na twardym dysku
 Name:		ardour
 Version:	0.9
-Release:	0.%{_beta}.1
+Release:	1.%{_beta}.0
 License:	GPL
 Group:		X11/Applications/Sound
 Source0:	http://dl.sourceforge.net/ardour/%{name}-%{version}%{_beta}.tar.bz2
 # Source0-md5:	91db0b724e5183e7c92408a986aa17ea
+Source1:	%{name}.desktop
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
 URL:		http://ardour.sourceforge.net/
@@ -41,7 +39,7 @@ non-destructive, non-linear editor, LADSPA plugins.
 
 %description -l pl
 "Profesjonalny" wielo¶cie¿kowy, wielokana³owy magnetofon oraz DAW dla
-Linuksa, wykorzystuj±cy interfejsu d¼wiêkowe obs³ugiwane przez ALSA.
+Linuksa, wykorzystuj±cy interfejsy d¼wiêkowe obs³ugiwane przez ALSA.
 Obs³uguje próbki do 32 bitów, 24+ kana³ów do 96kHz, pe³n± kontrolê
 MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 
@@ -106,9 +104,12 @@ cd ../..
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_desktopdir}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 
 %find_lang %{name} --all-name
 
@@ -123,3 +124,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 %dir %{_sysconfdir}/ardour
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/ardour/*.rc
+%{_desktopdir}/ardour.desktop
