@@ -2,19 +2,18 @@ Summary:	Multitrack hard disk recorder
 Summary(pl):	Wielo¶cie¿kowy magnetofon nagrywaj±cy na twardym dysku
 Name:		ardour
 Version:	0.9
-%define	_beta	beta9.1
+%define	_beta	beta18
 Release:	0.%{_beta}.1
 License:	GPL
 Group:		X11/Applications/Sound
-Source0:	http://dl.sourceforge.net/ardour/%{name}-%{version}%{_beta}.tar.bz2
-# Source0-md5:	411deff954d269b70a330f2718c5674a
+Source0:	http://ardour.org/releases/%{name}-%{version}%{_beta}.tar.bz2
+# Source0-md5:	f0ab7b6fccb67b209b1f11edea49fbf1
 Source1:	%{name}.desktop
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
 Patch2:		%{name}-ac_cleanup.patch
-Patch3:		%{name}-am18.patch
-Patch4:		%{name}-nptl_fix.patch
-URL:		http://ardour.sourceforge.net/
+Patch3:		%{name}-nptl_fix.patch
+URL:		http://ardour.org/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -53,15 +52,15 @@ MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 install -d m4
 # extract AM_BUILD_ENVIRONMENT (patched!)
-tail -n +760 aclocal.m4 > m4/buildenv.m4
-# AC_UNIQUIFY_{LAST,FIRST}
-#tail -n +6685 libs/ardour/aclocal.m4 >> m4/buildenv.m4
-# AC_POSIX_RTSCHED
-tail -n +895 libs/pbd/aclocal.m4 | head -n 118 >> m4/buildenv.m4
+tail -n +837 aclocal.m4 > m4/buildenv.m4
+# AM_OPT_FLAGS (patched!)
+tail -n +862 libs/pbd/aclocal.m4 | head -n 33 >> m4/buildenv.m4
+
+%{__perl} -pi -e 's/pt_PT/pt/' gtk_ardour/po/LINGUAS
+mv -f gtk_ardour/po/{pt_PT,pt}.po
 
 %build
 %{__aclocal} -I m4
@@ -118,6 +117,9 @@ install -d $RPM_BUILD_ROOT%{_desktopdir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 
+# it shouldn't be there
+rm -f $RPM_BUILD_ROOT%{_datadir}/ardour/libardour.{la,a}
+
 %find_lang %{name} --all-name
 
 %clean
@@ -125,10 +127,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog CONTRIBUTORS FAQ README TODO TRANSLATORS
+%doc ChangeLog DOCUMENTATION/{AUTHORS,CONTRIBUTORS,FAQ,README,TODO,TRANSLATORS}
+%lang(es) %doc DOCUMENTATION/{AUTHORS.es,CONTRIBUTORS.es,README.es}
+%lang(fr) %doc DOCUMENTATION/README.fr
+%lang(it) %doc DOCUMENTATION/README.it
+%lang(ru) %doc DOCUMENTATION/README.ru
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/%{name}
-%{_mandir}/man1/*
+%{_mandir}/man1/ardour.1*
+%lang(es) %{_mandir}/es/man1/ardour.1*
+%lang(fr) %{_mandir}/fr/man1/ardour.1*
+%lang(ru) %{_mandir}/ru/man1/ardour.1*
 %dir %{_sysconfdir}/ardour
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/ardour/*.rc
 %{_desktopdir}/ardour.desktop
