@@ -1,25 +1,26 @@
-%define		_beta beta2
+%define		_beta beta5
 Summary:	Multitrack hard disk recorder
 Summary(pl):	Wieloscie¿kowy magnetofon nagrywaj±cy na twardym dysku
 Name:		ardour
 Version:	0.9
-Release:	1.%{_beta}.0
+Release:	0.%{_beta}.1
 License:	GPL
 Group:		X11/Applications/Sound
 Source0:	http://dl.sourceforge.net/ardour/%{name}-%{version}%{_beta}.tar.bz2
-# Source0-md5:	91db0b724e5183e7c92408a986aa17ea
+# Source0-md5:	6acd85f0fb9d18b8dc99ff29bbc48ad7
 Source1:	%{name}.desktop
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
+Patch2:		%{name}-ac_cleanup.patch
 URL:		http://ardour.sourceforge.net/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	alsa-lib-devel >= 0.9.0
 BuildRequires:	gtk+-devel >= 1.0.0
-BuildRequires:	gtk-canvas-devel >= 0.1
+#BuildRequires:	gtk-canvas-devel >= 0.1
 BuildRequires:	gtkmm1-devel >= 1.2.6
-BuildRequires:	jack-audio-connection-kit-devel >= 0.66.0
+BuildRequires:	jack-audio-connection-kit-devel >= 0.80.0
 BuildRequires:	libart_lgpl >= 2.3
 BuildRequires:	libpng-devel
 BuildRequires:	liblrdf-devel >= 0.3.0
@@ -48,14 +49,15 @@ MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 %setup -q -n %{name}-%{version}%{_beta}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 install -d m4
 # extract AM_BUILD_ENVIRONMENT (patched!)
-tail +787 aclocal.m4 > m4/buildenv.m4
+tail +760 aclocal.m4 > m4/buildenv.m4
 # AC_UNIQUIFY_{LAST,FIRST}
-tail +6685 libs/ardour/aclocal.m4 >> m4/buildenv.m4
+#tail +6685 libs/ardour/aclocal.m4 >> m4/buildenv.m4
 # AC_POSIX_RTSCHED
-tail +870 libs/pbd/aclocal.m4 | head -118 >> m4/buildenv.m4
+tail +895 libs/pbd/aclocal.m4 | head -118 >> m4/buildenv.m4
 
 %build
 %{__aclocal} -I m4
@@ -119,7 +121,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc ChangeLog README ReleaseNotes* TODO
+%doc AUTHORS ChangeLog CONTRIBUTORS FAQ README TODO TRANSLATORS
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/%{name}
 %{_mandir}/man1/*
