@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=Ardour
 Comment=Multitrack hard disk recorder
-Comment[pl]=Wieloscieżkowy magnetofon nagrywający na twardym dysku
+Comment[pl]=Wielościeżkowy magnetofon nagrywający na twardym dysku
 Exec=/usr/bin/ardour
 Terminal=false
 Type=Application
