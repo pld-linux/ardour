@@ -28,21 +28,22 @@
 +LIBS="$LIBS $ARDOUR_TOP/libs/soundtouch/libsoundtouch.a $ARDOUR_TOP/libs/midi++/libmidipp.a $ARDOUR_TOP/libs/pbd/libpbd.a `sigc-config --libs`"
  ])
  
---- ardour-0.9beta2/libs/configure.ac.orig	2003-06-24 05:11:36.000000000 +0200
-+++ ardour-0.9beta2/libs/configure.ac	2003-07-15 00:03:21.000000000 +0200
-@@ -5,10 +5,10 @@
+--- ardour-0.9beta18/libs/configure.ac.orig	2004-07-06 00:18:35.000000000 +0200
++++ ardour-0.9beta18/libs/configure.ac	2004-07-08 23:34:07.233970016 +0200
+@@ -5,11 +5,11 @@
  
  AM_BUILD_ENVIRONMENT
  
 -AC_CONFIG_SUBDIRS(sigc++ pbd soundtouch midi++ ardour)
 +AC_CONFIG_SUBDIRS(pbd soundtouch midi++ ardour)
  
- if test x$WITH_GTK_GUI != x ; then
+ if test x$WITH_GTK1_GUI != x ; then
+    AC_MSG_WARN([******* USING BUILD GTK SUPPORT ***** ])
 -   AC_CONFIG_SUBDIRS(gtkmm gtkmmext gtk-canvas)
 +   AC_CONFIG_SUBDIRS(gtkmmext gtk-canvas)
- fi
- 
- if test x$WITH_VST_WIN != x ; then
+ else
+    AC_MSG_WARN([******* ---NOT-- USING BUILD GTK SUPPORT ***** (val = :$WITH_GTK1_GUI:)])
+    GUIDIRS_NOT_USED_FOR_BUILD="gtkmm gtkmmext gtk-canvas"
 --- ardour-0.9beta2/gtk_ardour/editor_audiotrack.cc.orig	2003-06-24 05:11:35.000000000 +0200
 +++ ardour-0.9beta2/gtk_ardour/editor_audiotrack.cc	2003-07-15 00:57:21.000000000 +0200
 @@ -1,12 +1,13 @@
@@ -62,24 +63,3 @@
  using namespace ARDOUR;
  
  void
---- ardour-0.9beta2/gtk_ardour/selection.cc.orig	2003-06-24 05:11:35.000000000 +0200
-+++ ardour-0.9beta2/gtk_ardour/selection.cc	2003-07-15 01:12:34.000000000 +0200
-@@ -22,8 +22,6 @@
- #include <sigc++/bind.h>
- #include <pbd/error.h>
- 
--#include <ardour/route.h>
--
- #include "regionview.h"
- #include "selection.h"
- #include "selection_templates.h"
-@@ -31,6 +29,9 @@
- 
- #include "i18n.h"
- 
-+/* must be after Gtk-- includes - LOCK define conflict */
-+#include <ardour/route.h>
-+
- using namespace ARDOUR;
- using namespace SigC;
- 
