@@ -53,11 +53,11 @@ MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 
 install -d m4
 # extract AM_BUILD_ENVIRONMENT (patched!)
-tail +760 aclocal.m4 > m4/buildenv.m4
+tail -n +760 aclocal.m4 > m4/buildenv.m4
 # AC_UNIQUIFY_{LAST,FIRST}
-#tail +6685 libs/ardour/aclocal.m4 >> m4/buildenv.m4
+#tail -n +6685 libs/ardour/aclocal.m4 >> m4/buildenv.m4
 # AC_POSIX_RTSCHED
-tail +895 libs/pbd/aclocal.m4 | head -118 >> m4/buildenv.m4
+tail -n +895 libs/pbd/aclocal.m4 | head -n 118 >> m4/buildenv.m4
 
 %build
 %{__aclocal} -I m4
