@@ -1,4 +1,4 @@
-%define		_beta beta5
+%define		_beta beta7
 Summary:	Multitrack hard disk recorder
 Summary(pl):	Wieloscie¿kowy magnetofon nagrywaj±cy na twardym dysku
 Name:		ardour
@@ -7,7 +7,7 @@ Release:	0.%{_beta}.1
 License:	GPL
 Group:		X11/Applications/Sound
 Source0:	http://dl.sourceforge.net/ardour/%{name}-%{version}%{_beta}.tar.bz2
-# Source0-md5:	6acd85f0fb9d18b8dc99ff29bbc48ad7
+# Source0-md5:	f71e65cbc965fc9b4f90d563298fef8d
 Source1:	%{name}.desktop
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
