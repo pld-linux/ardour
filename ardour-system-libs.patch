@@ -45,11 +45,12 @@
  if test x$WITH_VST_WIN != x ; then
 --- ardour-0.9beta2/gtk_ardour/editor_audiotrack.cc.orig	2003-06-24 05:11:35.000000000 +0200
 +++ ardour-0.9beta2/gtk_ardour/editor_audiotrack.cc	2003-07-15 00:57:21.000000000 +0200
-@@ -1,11 +1,12 @@
+@@ -1,12 +1,13 @@
 -#include <ardour/location.h>
 -#include <ardour/diskstream.h>
 -
  #include "editor.h"
+ #include "editing.h"
  #include "audio_time_axis.h"
  #include "regionview.h"
  #include "selection.h"

@@ -1,16 +1,27 @@
---- ardour-0.9beta7/gtk_ardour/configure.ac.orig	2003-06-24 05:11:35.000000000 +0200
-+++ ardour-0.9beta7/gtk_ardour/configure.ac	2003-07-15 01:30:51.000000000 +0200
-@@ -37,8 +37,8 @@
-    AC_MSG_ERROR([*** Ardour is written in C++. You don't appear to have a C++ compiler])
+--- ardour-0.9beta9.1/gtk_ardour/configure.ac.orig	2003-11-14 04:08:50.000000000 +0100
++++ ardour-0.9beta9.1/gtk_ardour/configure.ac	2004-02-11 00:56:11.989904752 +0100
+@@ -84,15 +84,18 @@
  fi
  
+ 
 -CXXFLAGS="-g -D_REENTRANT"
--OPT_CXXFLAGS="-D_REENTRANT -O3 -march=$target_cpu -fomit-frame-pointer -ffast-math -fstrength-reduce -funroll-loops -fmove-all-movables"
+-CFLAGS="-g -D_REENTRANT"
++# eeh, /proc/cpuinfo is evil in distro builds
++OPT_FLAGS="-D_REENTRANT -fomit-frame-pointer -ffast-math"
 +CXXFLAGS="$CXXFLAGS -D_REENTRANT"
-+OPT_CXXFLAGS="$CXXFLAGS -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
++CFLAGS="$CFLAGS -D_REENTRANT"
  if test x"$GXX" = xyes ; then
     CXXFLAGS="$CXXFLAGS -Wall"
+    CFLAGS="$CFLAGS -Wall"
  fi
+ if test x"$GXX" = xyes ; then
+-   OPT_CXXFLAGS="$OPT_FLAGS -Wall"
++   OPT_CXXFLAGS="$CXXFLAGS $OPT_FLAGS -Wall"
+ fi
++OPT_FLAGS="$CFLAGS $OPT_FLAGS"
+ 
+ AC_ARG_ENABLE(optimize,
+      [  --disable-optimize       avoid optimizations to allow gdb debugging.],
 --- ardour-0.9beta2/ksi_ardour/configure.ac.orig	2003-06-24 05:11:36.000000000 +0200
 +++ ardour-0.9beta2/ksi_ardour/configure.ac	2003-07-15 01:30:39.000000000 +0200
 @@ -32,8 +32,7 @@
@@ -23,19 +34,25 @@
  if test x"$GXX" = xyes ; then
     CXXFLAGS="$CXXFLAGS -Wall"
  fi
---- ardour-0.9beta7/libs/ardour/configure.ac.orig	2003-06-27 03:21:32.000000000 +0200
-+++ ardour-0.9beta7/libs/ardour/configure.ac	2003-07-15 01:31:29.000000000 +0200
-@@ -37,8 +37,8 @@
-    AC_MSG_ERROR([*** Ardour is written in C++. You don't appear to have a C++ compiler])
+--- ardour-0.9beta9.1/libs/ardour/configure.ac.orig	2004-01-16 01:47:46.000000000 +0100
++++ ardour-0.9beta9.1/libs/ardour/configure.ac	2004-02-11 00:57:49.568070616 +0100
+@@ -84,12 +84,14 @@
  fi
  
+ 
 -CXXFLAGS="-g -D_REENTRANT"
--OPT_CXXFLAGS="-D_REENTRANT -O3 -march=$target_cpu -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
++# eeh, /proc/cpuinfo is evil in distro builds
++OPT_FLAGS="-D_REENTRANT -fomit-frame-pointer -ffast-math"
 +CXXFLAGS="$CXXFLAGS -D_REENTRANT"
-+OPT_CXXFLAGS="$CXXFLAGS -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
  if test x"$GXX" = xyes ; then
     CXXFLAGS="$CXXFLAGS -Wall"
  fi
+ if test x"$GXX" = xyes ; then
+-   OPT_CXXFLAGS="$OPT_FLAGS -Wall"
++   OPT_CXXFLAGS="$CXXFLAGS $OPT_FLAGS -Wall"
+ fi
+ 
+ AC_ARG_ENABLE(optimize,
 --- ardour-0.9beta2/libs/gtkmmext/configure.ac.orig	2003-06-24 05:11:38.000000000 +0200
 +++ ardour-0.9beta2/libs/gtkmmext/configure.ac	2003-07-15 01:33:24.000000000 +0200
 @@ -37,10 +37,10 @@
