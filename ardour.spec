@@ -3,7 +3,7 @@ Summary(pl):	Wielo¶cie¿kowy magnetofon nagrywaj±cy na twardym dysku
 Name:		ardour
 Version:	0.9
 %define	_beta	beta18
-Release:	0.%{_beta}.1
+Release:	0.%{_beta}.2
 License:	GPL
 Group:		X11/Applications/Sound
 Source0:	http://ardour.org/releases/%{name}-%{version}%{_beta}.tar.bz2
