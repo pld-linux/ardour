@@ -1,8 +1,5 @@
 # TODO:
-# - use external libraries if possible (sigc++1 and gtkmm1)
 # - .desktop
-# - check BR (ladspa - is it really needed at compile time?)
-# - optflags (in gtk_ardour, libs/{ardour,gtkmmext,midi++,pbd,soundtouch}
 #
 %define		_beta beta2
 Summary:	Multitrack hard disk recorder
@@ -15,6 +12,7 @@ Group:		X11/Applications/Sound
 Source0:	http://dl.sourceforge.net/ardour/%{name}-%{version}%{_beta}.tar.bz2
 # Source0-md5:	91db0b724e5183e7c92408a986aa17ea
 Patch0:		%{name}-system-libs.patch
+Patch1:		%{name}-opt.patch
 URL:		http://ardour.sourceforge.net/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf >= 2.50
@@ -23,8 +21,8 @@ BuildRequires:	alsa-lib-devel >= 0.9.0
 BuildRequires:	gtk+-devel >= 1.0.0
 BuildRequires:	gtkmm1-devel >= 1.2.6
 BuildRequires:	jack-audio-connection-kit-devel >= 0.66.0
-BuildRequires:	ladspa-devel
 BuildRequires:	libart_lgpl >= 2.3
+BuildRequires:	libpng-devel
 BuildRequires:	liblrdf-devel >= 0.3.0
 BuildRequires:	libsamplerate-devel >= 0.0.13
 BuildRequires:	libsigc++1-devel >= 0.8.8
@@ -49,7 +47,8 @@ MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 
 %prep
 %setup -q -n %{name}-%{version}%{_beta}
-%patch -p1
+%patch0 -p1
+%patch1 -p1
 
 install -d m4
 # extract AM_BUILD_ENVIRONMENT (patched!)
@@ -100,7 +99,8 @@ cd ../soundtouch
 cd ../..
 # ksi doesn't build for a moment
 %configure \
-	--disable-ksi
+	--disable-ksi \
+	%{!?debug:--enable-optimize}
 
 %{__make}
 
@@ -119,9 +119,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc ChangeLog README ReleaseNotes* TODO
 %attr(755,root,root) %{_bindir}/*
-%dir %{_datadir}/%{name}
-%{_datadir}/%{name}/pixmaps
-%{_datadir}/%{name}/splash.ppm
+%{_datadir}/%{name}
 %{_mandir}/man1/*
 %dir %{_sysconfdir}/ardour
-%{_sysconfdir}/ardour/*.rc
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/ardour/*.rc

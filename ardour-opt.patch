@@ -1,0 +1,94 @@
+--- ardour-0.9beta2/gtk_ardour/configure.ac.orig	2003-06-24 05:11:35.000000000 +0200
++++ ardour-0.9beta2/gtk_ardour/configure.ac	2003-07-15 01:30:51.000000000 +0200
+@@ -37,8 +37,8 @@
+    AC_MSG_ERROR([*** Ardour is written in C++. You don't appear to have a C++ compiler])
+ fi
+ 
+-CXXFLAGS="-g -D_REENTRANT"
+-OPT_CXXFLAGS="-D_REENTRANT -O6 -fomit-frame-pointer -ffast-math -fstrength-reduce -funroll-loops -fmove-all-movables"
++CXXFLAGS="$CXXFLAGS -D_REENTRANT"
++OPT_CXXFLAGS="$CXXFLAGS -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
+ if test x"$GXX" = xyes ; then
+    CXXFLAGS="$CXXFLAGS -Wall"
+ fi
+--- ardour-0.9beta2/ksi_ardour/configure.ac.orig	2003-06-24 05:11:36.000000000 +0200
++++ ardour-0.9beta2/ksi_ardour/configure.ac	2003-07-15 01:30:39.000000000 +0200
+@@ -32,8 +32,7 @@
+    AC_MSG_ERROR([*** aes is written in C++. You don't appear to have a C++ compiler])
+ fi
+ 
+-CXXFLAGS="-g"
+-OPT_CXXFLAGS="-O6 -fomit-frame-pointer -ffast-math -fstrength-reduce -funroll-loops -fmove-all-movables"
++OPT_CXXFLAGS="$CXXFLAGS -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
+ if test x"$GXX" = xyes ; then
+    CXXFLAGS="$CXXFLAGS -Wall"
+ fi
+--- ardour-0.9beta2/libs/ardour/configure.ac.orig	2003-06-27 03:21:32.000000000 +0200
++++ ardour-0.9beta2/libs/ardour/configure.ac	2003-07-15 01:31:29.000000000 +0200
+@@ -37,8 +37,8 @@
+    AC_MSG_ERROR([*** Ardour is written in C++. You don't appear to have a C++ compiler])
+ fi
+ 
+-CXXFLAGS="-g -D_REENTRANT"
+-OPT_CXXFLAGS="-D_REENTRANT -O6 -mcpu=i686 -march=i686 -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
++CXXFLAGS="$CXXFLAGS -D_REENTRANT"
++OPT_CXXFLAGS="$CXXFLAGS -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
+ if test x"$GXX" = xyes ; then
+    CXXFLAGS="$CXXFLAGS -Wall"
+ fi
+--- ardour-0.9beta2/libs/gtkmmext/configure.ac.orig	2003-06-24 05:11:38.000000000 +0200
++++ ardour-0.9beta2/libs/gtkmmext/configure.ac	2003-07-15 01:33:24.000000000 +0200
+@@ -37,10 +37,10 @@
+    AC_MSG_ERROR([*** libmidi is C++. You don't appear to have a C++ compiler])
+ fi
+ 
+-CXXFLAGS="-g -D_REENTRANT"
+-OPT_CXXFLAGS="-D_REENTRANT -O6 -fomit-frame-pointer -ffast-math -fstrength-reduce -funroll-loops -fmove-all-movables"
+-CFLAGS="-g -D_REENTRANT"
+-OPT_CFLAGS="-D_REENTRANT -O6 -fomit-frame-pointer -ffast-math -fstrength-reduce -funroll-loops -fmove-all-movables"
++CXXFLAGS="$CXXFLAGS -D_REENTRANT"
++OPT_CXXFLAGS="$CXXFLAGS -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
++CFLAGS="$CLFAGS -D_REENTRANT"
++OPT_CFLAGS="$CFLAGS -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
+ if test x"$GXX" = xyes ; then
+    CXXFLAGS="$CXXFLAGS -Wall"
+ fi
+--- ardour-0.9beta2/libs/midi++/configure.ac.orig	2003-06-24 05:11:39.000000000 +0200
++++ ardour-0.9beta2/libs/midi++/configure.ac	2003-07-15 01:33:48.000000000 +0200
+@@ -48,8 +48,8 @@
+    AC_MSG_ERROR([*** libmidi is C++. You don't appear to have a C++ compiler])
+ fi
+ 
+-CXXFLAGS="-g -D_REENTRANT"
+-OPT_CXXFLAGS="-D_REENTRANT -O6 -fomit-frame-pointer -ffast-math -fstrength-reduce -funroll-loops -fmove-all-movables"
++CXXFLAGS="$CXXFLAGS -D_REENTRANT"
++OPT_CXXFLAGS="$CXXFLAGS -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
+ if test x"$GXX" = xyes ; then
+    CXXFLAGS="$CXXFLAGS -Wall"
+ fi
+--- ardour-0.9beta2/libs/pbd/configure.ac.orig	2003-06-24 05:11:39.000000000 +0200
++++ ardour-0.9beta2/libs/pbd/configure.ac	2003-07-15 01:34:11.000000000 +0200
+@@ -32,8 +32,8 @@
+    AC_MSG_ERROR([*** libpbd is C++. You don't appear to have a C++ compiler])
+ fi
+ 
+-CXXFLAGS="-g -D_REENTRANT"
+-OPT_CXXFLAGS="-D_REENTRANT -O6 -fomit-frame-pointer -ffast-math -fstrength-reduce -funroll-loops -fmove-all-movables"
++CXXFLAGS="$CXXFLAGS -D_REENTRANT"
++OPT_CXXFLAGS="$CXXFLAGS -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
+ if test x"$GXX" = xyes ; then
+    CXXFLAGS="$CXXFLAGS -Wall"
+ fi
+--- ardour-0.9beta2/libs/soundtouch/configure.ac.orig	2003-03-01 03:53:20.000000000 +0100
++++ ardour-0.9beta2/libs/soundtouch/configure.ac	2003-07-15 01:34:34.000000000 +0200
+@@ -35,8 +35,8 @@
+    AC_MSG_ERROR([*** libpbd is C++. You don't appear to have a C++ compiler])
+ fi
+ 
+-CXXFLAGS="-g -D_REENTRANT"
+-OPT_CXXFLAGS="-D_REENTRANT -O6 -fomit-frame-pointer -ffast-math -fstrength-reduce -funroll-loops -fmove-all-movables"
++CXXFLAGS="$CXXFLAGS -D_REENTRANT"
++OPT_CXXFLAGS="$CXXFLAGS -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
+ if test x"$GXX" = xyes ; then
+    CXXFLAGS="$CXXFLAGS -Wall"
+ fi
