@@ -1,11 +1,11 @@
---- ardour-0.9beta2/gtk_ardour/configure.ac.orig	2003-06-24 05:11:35.000000000 +0200
-+++ ardour-0.9beta2/gtk_ardour/configure.ac	2003-07-15 01:30:51.000000000 +0200
+--- ardour-0.9beta7/gtk_ardour/configure.ac.orig	2003-06-24 05:11:35.000000000 +0200
++++ ardour-0.9beta7/gtk_ardour/configure.ac	2003-07-15 01:30:51.000000000 +0200
 @@ -37,8 +37,8 @@
     AC_MSG_ERROR([*** Ardour is written in C++. You don't appear to have a C++ compiler])
  fi
  
 -CXXFLAGS="-g -D_REENTRANT"
--OPT_CXXFLAGS="-D_REENTRANT -O6 -fomit-frame-pointer -ffast-math -fstrength-reduce -funroll-loops -fmove-all-movables"
+-OPT_CXXFLAGS="-D_REENTRANT -O3 -march=$target_cpu -fomit-frame-pointer -ffast-math -fstrength-reduce -funroll-loops -fmove-all-movables"
 +CXXFLAGS="$CXXFLAGS -D_REENTRANT"
 +OPT_CXXFLAGS="$CXXFLAGS -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
  if test x"$GXX" = xyes ; then
@@ -23,14 +23,14 @@
  if test x"$GXX" = xyes ; then
     CXXFLAGS="$CXXFLAGS -Wall"
  fi
---- ardour-0.9beta2/libs/ardour/configure.ac.orig	2003-06-27 03:21:32.000000000 +0200
-+++ ardour-0.9beta2/libs/ardour/configure.ac	2003-07-15 01:31:29.000000000 +0200
+--- ardour-0.9beta7/libs/ardour/configure.ac.orig	2003-06-27 03:21:32.000000000 +0200
++++ ardour-0.9beta7/libs/ardour/configure.ac	2003-07-15 01:31:29.000000000 +0200
 @@ -37,8 +37,8 @@
     AC_MSG_ERROR([*** Ardour is written in C++. You don't appear to have a C++ compiler])
  fi
  
 -CXXFLAGS="-g -D_REENTRANT"
--OPT_CXXFLAGS="-D_REENTRANT -O6 -mcpu=i686 -march=i686 -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
+-OPT_CXXFLAGS="-D_REENTRANT -O3 -march=$target_cpu -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
 +CXXFLAGS="$CXXFLAGS -D_REENTRANT"
 +OPT_CXXFLAGS="$CXXFLAGS -fomit-frame-pointer -ffast-math -fstrength-reduce -fmove-all-movables"
  if test x"$GXX" = xyes ; then
