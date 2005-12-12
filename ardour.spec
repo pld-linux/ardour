@@ -14,18 +14,18 @@ Patch1:		%{name}-opt.patch
 Patch2:		%{name}-ac_cleanup.patch
 Patch3:		%{name}-nptl_fix.patch
 URL:		http://ardour.org/
+#BuildRequires:	gtk-canvas-devel >= 0.1
 BuildRequires:	XFree86-devel
+BuildRequires:	alsa-lib-devel >= 0.9.0
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
-BuildRequires:	alsa-lib-devel >= 0.9.0
 BuildRequires:	gettext-devel
 BuildRequires:	gtk+-devel >= 1.0.0
-#BuildRequires:	gtk-canvas-devel >= 0.1
 BuildRequires:	gtkmm1-devel >= 1.2.6
 BuildRequires:	jack-audio-connection-kit-devel >= 0.98.0
 BuildRequires:	libart_lgpl >= 2.3.16
-BuildRequires:	libpng-devel
 BuildRequires:	liblrdf-devel >= 0.3.0
+BuildRequires:	libpng-devel
 BuildRequires:	libsamplerate-devel >= 0.0.13
 BuildRequires:	libsigc++1-devel >= 0.8.8
 BuildRequires:	libsndfile-devel >= 1.0.0
@@ -140,5 +140,5 @@ rm -rf $RPM_BUILD_ROOT
 %lang(fr) %{_mandir}/fr/man1/ardour.1*
 %lang(ru) %{_mandir}/ru/man1/ardour.1*
 %dir %{_sysconfdir}/ardour
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/ardour/*.rc
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour/*.rc
 %{_desktopdir}/ardour.desktop
