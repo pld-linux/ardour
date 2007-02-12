@@ -1,5 +1,5 @@
 Summary:	Multitrack hard disk recorder
-Summary(pl.UTF-8):   Wielościeżkowy magnetofon nagrywający na twardym dysku
+Summary(pl.UTF-8):	Wielościeżkowy magnetofon nagrywający na twardym dysku
 Name:		ardour
 Version:	0.9
 %define	_beta	beta18
