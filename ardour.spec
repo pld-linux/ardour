@@ -1,5 +1,5 @@
 Summary:	Multitrack hard disk recorder
-Summary(pl):	Wielo∂cieøkowy magnetofon nagrywaj±cy na twardym dysku
+Summary(pl.UTF-8):   Wielo≈õcie≈ºkowy magnetofon nagrywajƒÖcy na twardym dysku
 Name:		ardour
 Version:	0.9
 %define	_beta	beta18
@@ -41,10 +41,10 @@ Linux, using ALSA-supported audio interfaces. Supports up to 32 bit
 samples, 24+ channels at up to 96kHz, full MMC control,
 non-destructive, non-linear editor, LADSPA plugins.
 
-%description -l pl
-"Profesjonalny" wielo∂cieøkowy, wielokana≥owy magnetofon oraz DAW dla
-Linuksa, wykorzystuj±cy interfejsy dºwiÍkowe obs≥ugiwane przez ALSA.
-Obs≥uguje prÛbki do 32 bitÛw, 24+ kana≥Ûw do 96kHz, pe≥n± kontrolÍ
+%description -l pl.UTF-8
+"Profesjonalny" wielo≈õcie≈ºkowy, wielokana≈Çowy magnetofon oraz DAW dla
+Linuksa, wykorzystujƒÖcy interfejsy d≈∫wiƒôkowe obs≈Çugiwane przez ALSA.
+Obs≈Çuguje pr√≥bki do 32 bit√≥w, 24+ kana≈Ç√≥w do 96kHz, pe≈ÇnƒÖ kontrolƒô
 MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 
 %prep
