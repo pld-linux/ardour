@@ -1,38 +1,35 @@
 Summary:	Multitrack hard disk recorder
 Summary(pl.UTF-8):	Wielościeżkowy magnetofon nagrywający na twardym dysku
 Name:		ardour
-Version:	0.9
-%define	_beta	beta18
-Release:	0.%{_beta}.3
+Version:	2.0.3
+Release:	0.1
 License:	GPL
 Group:		X11/Applications/Sound
-Source0:	http://ardour.org/releases/%{name}-%{version}%{_beta}.tar.bz2
-# Source0-md5:	f0ab7b6fccb67b209b1f11edea49fbf1
+Source0:	http://ardour.org/files/releases/%{name}-%{version}.tar.bz2
+# Source0-md5:	d047d3f9e7b5b4bf80980c5b267c1068
 Source1:	%{name}.desktop
-Patch0:		%{name}-system-libs.patch
-Patch1:		%{name}-opt.patch
-Patch2:		%{name}-ac_cleanup.patch
 Patch3:		%{name}-nptl_fix.patch
 URL:		http://ardour.org/
-#BuildRequires:	gtk-canvas-devel >= 0.1
-BuildRequires:	XFree86-devel
 BuildRequires:	alsa-lib-devel >= 0.9.0
-BuildRequires:	autoconf >= 2.50
-BuildRequires:	automake
+BuildRequires:	boost-devel
 BuildRequires:	gettext-devel
-BuildRequires:	gtk+-devel >= 1.0.0
-BuildRequires:	gtkmm1-devel >= 1.2.6
+BuildRequires:	gtk+-devel >= 2.8.0
+BuildRequires:	gtkmm-devel >= 2.8.0
 BuildRequires:	jack-audio-connection-kit-devel >= 0.98.0
 BuildRequires:	libart_lgpl >= 2.3.16
-BuildRequires:	liblrdf-devel >= 0.3.0
+BuildRequires:	libgnomecanvas-devel >= 2.0
+BuildRequires:	liblrdf-devel >= 0.3
+BuildRequires:	liblo-devel 
 BuildRequires:	libpng-devel
-BuildRequires:	libsamplerate-devel >= 0.0.13
+BuildRequires:	libsamplerate-devel >= 0.1.2
 BuildRequires:	libsigc++1-devel >= 0.8.8
 BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 2.5.0
-BuildRequires:	pkgconfig
+BuildRequires:	python >= 2.3.4
+BuildRequires:	pkgconfig >= 0.20
+BuildRequires:	scons >= 0.96
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -48,73 +45,20 @@ Obsługuje próbki do 32 bitów, 24+ kanałów do 96kHz, pełną kontrolę
 MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 
 %prep
-%setup -q -n %{name}-%{version}%{_beta}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%setup -q
 %patch3 -p1
 
-install -d m4
-# extract AM_BUILD_ENVIRONMENT (patched!)
-tail -n +837 aclocal.m4 > m4/buildenv.m4
-# AM_OPT_FLAGS (patched!)
-tail -n +862 libs/pbd/aclocal.m4 | head -n 33 >> m4/buildenv.m4
-
-%{__perl} -pi -e 's/pt_PT/pt/' gtk_ardour/po/LINGUAS
-mv -f gtk_ardour/po/{pt_PT,pt}.po
-
 %build
-%{__aclocal} -I m4
-%{__autoconf}
-%{__automake}
-cd gtk_ardour
-%{__aclocal} -I ../m4
-%{__autoconf}
-%{__automake}
-cd ../libs
-%{__libtoolize}
-%{__aclocal} -I ../m4
-%{__autoconf}
-%{__automake}
-cd ardour
-%{__libtoolize}
-%{__aclocal} -I ../../m4
-%{__autoconf}
-%{__automake}
-cd ../gtk-canvas
-%{__aclocal} -I ../../m4
-%{__autoconf}
-%{__automake}
-cd ../gtkmmext
-%{__aclocal} -I ../../m4
-%{__autoconf}
-%{__automake}
-cd ../midi++
-%{__aclocal} -I ../../m4
-%{__autoconf}
-%{__automake}
-cd ../pbd
-%{__aclocal} -I ../../m4
-%{__autoconf}
-%{__automake}
-cd ../soundtouch
-%{__aclocal} -I ../../m4
-%{__autoconf}
-%{__automake}
-cd ../..
-# ksi doesn't build for a moment
-%configure \
-	--disable-ksi \
-	%{!?debug:--enable-optimize}
-
-%{__make}
+%{scons}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_desktopdir}
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+%{scons} install \
+	DESTDIR=$RPM_BUILD_ROOT \
+	GTK=yes
+#	KSI=yes
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 
