@@ -13,23 +13,33 @@ URL:		http://ardour.org/
 BuildRequires:	alsa-lib-devel >= 0.9.0
 BuildRequires:	boost-devel
 BuildRequires:	gettext-devel
-BuildRequires:	gtk+-devel >= 2.8.0
+# included libsndfile needs patch (wants FLAC__seekable_stream_decoder_set_read_callback)
+# (in ardour itself only one UI option depends on HAVE_FLAC)
+BuildRequires:	flac-devel
+BuildRequires:	fftw3-single-devel >= 3
+BuildRequires:	glib2-devel >= 1:2.10.1
+BuildRequires:	gtk+2-devel >= 2:2.8.1
 BuildRequires:	gtkmm-devel >= 2.8.0
-BuildRequires:	jack-audio-connection-kit-devel >= 0.98.0
+BuildRequires:	jack-audio-connection-kit-devel >= 0.101.1
 BuildRequires:	libart_lgpl >= 2.3.16
 BuildRequires:	libgnomecanvas-devel >= 2.0
-BuildRequires:	liblrdf-devel >= 0.3
+BuildRequires:	libgnomecanvasmm-devel >= 2.12.0
+BuildRequires:	liblrdf-devel >= 0.4.0
 BuildRequires:	liblo-devel 
-BuildRequires:	libpng-devel
+BuildRequires:	libraptor-devel >= 1.4.2
 BuildRequires:	libsamplerate-devel >= 0.1.2
-BuildRequires:	libsigc++1-devel >= 0.8.8
-BuildRequires:	libsndfile-devel >= 1.0.0
+BuildRequires:	libsigc++-devel >= 2.0
+# internal one used
+#BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
-BuildRequires:	libxml2-devel >= 2.5.0
+BuildRequires:	libusb-devel
+BuildRequires:	libxml2-devel >= 1:2.6.0
+BuildRequires:	libxslt-devel
 BuildRequires:	python >= 2.3.4
-BuildRequires:	pkgconfig >= 0.20
+BuildRequires:	pkgconfig >= 1:0.20
 BuildRequires:	scons >= 0.96
+BuildRequires:	soundtouch-devel >= 1.3.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -49,13 +59,23 @@ MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 %patch3 -p1
 
 %build
-%{scons}
+%scons \
+	SYSLIBS=1 \
+%ifarch %{x8664}
+	DIST_TARGET=x86_64
+%else
+%ifarch %{ix86}
+	DIST_TARGET=i386
+%else
+	DIST_TARGET=none
+%endif
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_desktopdir}
 
-%{scons} install \
+%scons install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	GTK=yes
 #	KSI=yes
