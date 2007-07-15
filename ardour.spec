@@ -8,7 +8,7 @@ Group:		X11/Applications/Sound
 Source0:	http://ardour.org/files/releases/%{name}-%{version}.tar.bz2
 # Source0-md5:	d047d3f9e7b5b4bf80980c5b267c1068
 Source1:	%{name}.desktop
-Patch3:		%{name}-nptl_fix.patch
+Patch0:		%{name}-c++.patch
 URL:		http://ardour.org/
 BuildRequires:	alsa-lib-devel >= 0.9.0
 BuildRequires:	boost-devel
@@ -56,7 +56,7 @@ MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 
 %prep
 %setup -q
-%patch3 -p1
+%patch0 -p1
 
 %build
 %scons \
