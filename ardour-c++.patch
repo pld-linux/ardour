@@ -1,0 +1,54 @@
+--- ardour-2.0.3/gtk2_ardour/automation_selectable.h.orig	2007-05-10 13:30:27.000000000 +0200
++++ ardour-2.0.3/gtk2_ardour/automation_selectable.h	2007-07-15 00:19:56.345439649 +0200
+@@ -31,17 +31,17 @@ struct AutomationSelectable : public Sel
+     nframes_t end;
+     double low_fract;
+     double high_fract;
+-    TimeAxisView& track;
++    TimeAxisView *track;
+ 
+     AutomationSelectable (nframes_t s, nframes_t e, double l, double h, TimeAxisView& atv)
+-	    : start (s), end (e), low_fract (l), high_fract (h), track (atv) {}
++	    : start (s), end (e), low_fract (l), high_fract (h), track (&atv) {}
+ 
+     bool operator== (const AutomationSelectable& other) {
+ 	    return start == other.start &&
+ 		    end == other.end &&
+ 		    low_fract == other.low_fract &&
+ 		    high_fract == other.high_fract &&
+-		    &track == &other.track;
++		    track == other.track;
+     }
+ };
+ 
+--- ardour-2.0.3/gtk2_ardour/automation_time_axis.cc.orig	2007-05-10 13:30:27.000000000 +0200
++++ ardour-2.0.3/gtk2_ardour/automation_time_axis.cc	2007-07-15 00:33:26.261213756 +0200
+@@ -554,7 +554,7 @@ AutomationTimeAxisView::reset_objects_on
+ 
+ 	for (PointSelection::iterator i = selection.begin(); i != selection.end(); ++i) {
+ 
+-		if (&(*i).track != this) {
++		if ((*i).track != this) {
+ 			continue;
+ 		}
+ 		
+@@ -585,7 +585,7 @@ AutomationTimeAxisView::cut_copy_clear_o
+ 
+ 	for (PointSelection::iterator i = selection.begin(); i != selection.end(); ++i) {
+ 
+-		if (&(*i).track != this) {
++		if ((*i).track != this) {
+ 			continue;
+ 		}
+ 
+--- ardour-2.0.3/gtk2_ardour/automation_line.cc.orig	2007-05-10 13:30:27.000000000 +0200
++++ ardour-2.0.3/gtk2_ardour/automation_line.cc	2007-07-15 00:36:48.307644484 +0200
+@@ -1102,7 +1102,7 @@ AutomationLine::set_selected_points (Poi
+ 	
+ 	for (PointSelection::iterator r = points.begin(); r != points.end(); ++r) {
+ 		
+-		if (&(*r).track != &trackview) {
++		if ((*r).track != &trackview) {
+ 			continue;
+ 		}
+ 
