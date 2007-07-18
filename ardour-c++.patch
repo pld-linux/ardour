@@ -52,3 +52,36 @@
  			continue;
  		}
  
+--- ardour-2.0.3/gtk2_ardour/editor_ops.cc.orig	2007-05-10 13:30:27.000000000 +0200
++++ ardour-2.0.3/gtk2_ardour/editor_ops.cc	2007-07-16 18:04:44.325467660 +0200
+@@ -2715,7 +2715,7 @@ Editor::cut_copy_points (CutCopyOp op)
+ {
+ 	for (PointSelection::iterator i = selection->points.begin(); i != selection->points.end(); ++i) {
+ 
+-		AutomationTimeAxisView* atv = dynamic_cast<AutomationTimeAxisView*>(&(*i).track);
++		AutomationTimeAxisView* atv = dynamic_cast<AutomationTimeAxisView*>((*i).track);
+ 
+ 		if (atv) {
+ 			atv->cut_copy_clear_objects (selection->points, op);
+@@ -3082,7 +3082,7 @@ Editor::reset_point_selection ()
+ 
+ 	for (PointSelection::iterator i = selection->points.begin(); i != selection->points.end(); ++i) {
+ 		
+-		AutomationTimeAxisView* atv = dynamic_cast<AutomationTimeAxisView*>(&(*i).track);
++		AutomationTimeAxisView* atv = dynamic_cast<AutomationTimeAxisView*>((*i).track);
+ 		
+ 		if (atv) {
+ 			atv->reset_objects (selection->points);
+--- ardour-2.0.3/gtk2_ardour/imageframe_view.cc.orig	2007-05-10 13:30:27.000000000 +0200
++++ ardour-2.0.3/gtk2_ardour/imageframe_view.cc	2007-07-16 19:37:00.088932841 +0200
+@@ -20,6 +20,10 @@
+ #include <algorithm>
+ #include <cmath>
+ 
++extern "C" {
++#include <libart_lgpl/art_misc.h>
++}
++
+ #include <gtkmm.h>
+ #include <gtkmm2ext/gtk_ui.h>
+ 
