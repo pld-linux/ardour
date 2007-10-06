@@ -90,6 +90,7 @@ install -d $RPM_BUILD_ROOT%{_desktopdir}
 
 %scons install \
 	DESTDIR=$RPM_BUILD_ROOT \
+	PREFIX=%{_prefix} \
 	GTK=yes
 #	KSI=yes
 
@@ -105,7 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc ChangeLog DOCUMENTATION/{AUTHORS,CONTRIBUTORS,FAQ,README,TODO,TRANSLATORS}
+%doc DOCUMENTATION/{AUTHORS,CONTRIBUTORS,FAQ,README,TODO,TRANSLATORS}
 %lang(es) %doc DOCUMENTATION/{AUTHORS.es,CONTRIBUTORS.es,README.es}
 %lang(fr) %doc DOCUMENTATION/README.fr
 %lang(it) %doc DOCUMENTATION/README.it
