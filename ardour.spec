@@ -25,7 +25,7 @@ BuildRequires:	flac-devel
 BuildRequires:	glib2-devel >= 1:2.10.1
 BuildRequires:	gtk+2-devel >= 2:2.8.1
 BuildRequires:	gtkmm-devel >= 2.8.0
-BuildRequires:	jack-audio-connection-kit-devel >= 0.101.1
+BuildRequires:	jack-audio-connection-kit-devel >= 0.103
 BuildRequires:	libart_lgpl >= 2.3.16
 BuildRequires:	libgnomecanvas-devel >= 2.0
 BuildRequires:	libgnomecanvasmm-devel >= 2.12.0
@@ -45,6 +45,7 @@ BuildRequires:	pkgconfig >= 1:0.20
 BuildRequires:	python >= 2.3.4
 BuildRequires:	scons >= 0.96
 BuildRequires:	soundtouch-devel >= 1.3.1
+Requires:	jack-audio-connection-kit-libs >= 0.103
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
