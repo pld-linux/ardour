@@ -1,3 +1,5 @@
+# TODO
+# - make it not to parse /proc/cpuinfo
 Summary:	Multitrack hard disk recorder
 Summary(pl.UTF-8):	Wielościeżkowy magnetofon nagrywający na twardym dysku
 Name:		ardour
@@ -16,8 +18,9 @@ BuildRequires:	boost-devel
 BuildRequires:	gettext-devel
 # included libsndfile needs patch (wants FLAC__seekable_stream_decoder_set_read_callback)
 # (in ardour itself only one UI option depends on HAVE_FLAC)
-BuildRequires:	flac-devel
+BuildRequires:	cairomm-devel
 BuildRequires:	fftw3-single-devel >= 3
+BuildRequires:	flac-devel
 BuildRequires:	glib2-devel >= 1:2.10.1
 BuildRequires:	gtk+2-devel >= 2:2.8.1
 BuildRequires:	gtkmm-devel >= 2.8.0
@@ -25,8 +28,8 @@ BuildRequires:	jack-audio-connection-kit-devel >= 0.101.1
 BuildRequires:	libart_lgpl >= 2.3.16
 BuildRequires:	libgnomecanvas-devel >= 2.0
 BuildRequires:	libgnomecanvasmm-devel >= 2.12.0
+BuildRequires:	liblo-devel
 BuildRequires:	liblrdf-devel >= 0.4.0
-BuildRequires:	liblo-devel 
 BuildRequires:	libraptor-devel >= 1.4.2
 BuildRequires:	libsamplerate-devel >= 0.1.2
 BuildRequires:	libsigc++-devel >= 2.0
@@ -37,8 +40,8 @@ BuildRequires:	libtool
 BuildRequires:	libusb-devel
 BuildRequires:	libxml2-devel >= 1:2.6.0
 BuildRequires:	libxslt-devel
-BuildRequires:	python >= 2.3.4
 BuildRequires:	pkgconfig >= 1:0.20
+BuildRequires:	python >= 2.3.4
 BuildRequires:	scons >= 0.96
 BuildRequires:	soundtouch-devel >= 1.3.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -62,6 +65,11 @@ MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 #%patch1 -p1
 
 %build
+# Make sure we have /proc mounted - it searches for flags from there
+if [ ! -f /proc/cpuinfo ]; then
+	echo "You need to have /proc mounted in order to build this package!"
+	exit 1
+fi
 %scons \
 	SYSLIBS=1 \
 %ifarch %{x8664}
