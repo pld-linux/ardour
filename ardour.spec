@@ -73,6 +73,7 @@ if [ ! -f /proc/cpuinfo ]; then
 	exit 1
 fi
 %scons \
+	PREFIX=%{_prefix} \
 	SYSLIBS=1 \
 %ifarch %{x8664}
 	DIST_TARGET=x86_64
