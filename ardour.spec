@@ -112,12 +112,27 @@ rm -rf $RPM_BUILD_ROOT
 %lang(fr) %doc DOCUMENTATION/README.fr
 %lang(it) %doc DOCUMENTATION/README.it
 %lang(ru) %doc DOCUMENTATION/README.ru
-%attr(755,root,root) %{_bindir}/*
-%{_datadir}/%{name}
-%{_mandir}/man1/ardour.1*
-%lang(es) %{_mandir}/es/man1/ardour.1*
-%lang(fr) %{_mandir}/fr/man1/ardour.1*
-%lang(ru) %{_mandir}/ru/man1/ardour.1*
-%dir %{_sysconfdir}/ardour
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour/*.rc
+%dir %{_sysconfdir}/ardour2
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour2/*.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour2/*.rc
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour2/ardour.bindings
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour2/ardour.menus
+%attr(755,root,root) %{_bindir}/ardour2
+%{_datadir}/ardour2
 %{_desktopdir}/ardour.desktop
+
+%dir %{_libdir}/ardour2
+%attr(755,root,root) %{_libdir}/ardour2/ardour-2.1
+%attr(755,root,root) %{_libdir}/ardour2/libardour.so
+%attr(755,root,root) %{_libdir}/ardour2/libardour_cp.so
+%attr(755,root,root) %{_libdir}/ardour2/libgtkmm2ext.so
+%attr(755,root,root) %{_libdir}/ardour2/libmidi++.so
+%attr(755,root,root) %{_libdir}/ardour2/libpbd.so
+%attr(755,root,root) %{_libdir}/ardour2/libsndfile-ardour.so
+%dir %{_libdir}/ardour2/engines
+%attr(755,root,root) %{_libdir}/ardour2/engines/libclearlooks.so
+%dir %{_libdir}/ardour2/surfaces
+%attr(755,root,root) %{_libdir}/ardour2/surfaces/libardour_genericmidi.so
+%attr(755,root,root) %{_libdir}/ardour2/surfaces/libardour_mackie.so
+%attr(755,root,root) %{_libdir}/ardour2/surfaces/libardour_powermate.so
+%attr(755,root,root) %{_libdir}/ardour2/surfaces/libardour_tranzport.so
