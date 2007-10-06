@@ -16,12 +16,10 @@ Patch2:		%{name}-stdint.patch
 URL:		http://ardour.org/
 BuildRequires:	alsa-lib-devel >= 0.9.0
 BuildRequires:	boost-devel
-BuildRequires:	gettext-devel
-# included libsndfile needs patch (wants FLAC__seekable_stream_decoder_set_read_callback)
-# (in ardour itself only one UI option depends on HAVE_FLAC)
 BuildRequires:	cairomm-devel
 BuildRequires:	fftw3-single-devel >= 3
 BuildRequires:	flac-devel
+BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.10.1
 BuildRequires:	gtk+2-devel >= 2:2.8.1
 BuildRequires:	gtkmm-devel >= 2.8.0
@@ -34,6 +32,8 @@ BuildRequires:	liblrdf-devel >= 0.4.0
 BuildRequires:	libraptor-devel >= 1.4.2
 BuildRequires:	libsamplerate-devel >= 0.1.2
 BuildRequires:	libsigc++-devel >= 2.0
+# included libsndfile needs patch (wants FLAC__seekable_stream_decoder_set_read_callback)
+# (in ardour itself only one UI option depends on HAVE_FLAC)
 # internal one used
 #BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	libstdc++-devel
@@ -73,6 +73,9 @@ if [ ! -f /proc/cpuinfo ]; then
 	echo "You need to have /proc mounted in order to build this package!"
 	exit 1
 fi
+
+CXX="%{__cxx}" \
+CC="%{__cc}" \
 %scons \
 	PREFIX=%{_prefix} \
 	SYSLIBS=1 \
@@ -108,7 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc DOCUMENTATION/{AUTHORS,CONTRIBUTORS,FAQ,README,TODO,TRANSLATORS}
+%doc DOCUMENTATION/{AUTHORS,CONTRIBUTORS,FAQ,TRANSLATORS}
 %lang(es) %doc DOCUMENTATION/{AUTHORS.es,CONTRIBUTORS.es,README.es}
 %lang(fr) %doc DOCUMENTATION/README.fr
 %lang(it) %doc DOCUMENTATION/README.it
