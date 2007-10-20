@@ -4,7 +4,7 @@ Summary:	Multitrack hard disk recorder
 Summary(pl.UTF-8):	Wielościeżkowy magnetofon nagrywający na twardym dysku
 Name:		ardour
 Version:	2.1
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		X11/Applications/Sound
 Source0:	http://ardour.org/files/releases/%{name}-%{version}.tar.bz2
@@ -90,8 +90,14 @@ CC="%{__cc}" \
 %endif
 
 %install
+# Make sure we have /proc mounted - it searches for flags from there
+if [ ! -f /proc/cpuinfo ]; then
+	echo "You need to have /proc mounted in order to build this package!"
+	exit 1
+fi
+
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_desktopdir}
+install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
 %scons install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -100,6 +106,7 @@ install -d $RPM_BUILD_ROOT%{_desktopdir}
 #	KSI=yes
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+cp -a gtk2_ardour/icons/ardour_icon_48px.png $RPM_BUILD_ROOT%{_pixmapsdir}/ardour.png
 
 # it shouldn't be there
 rm -f $RPM_BUILD_ROOT%{_datadir}/ardour/libardour.{la,a}
@@ -124,6 +131,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ardour2
 %{_datadir}/ardour2
 %{_desktopdir}/ardour.desktop
+%{_pixmapsdir}/ardour.png
 
 %dir %{_libdir}/ardour2
 %attr(755,root,root) %{_libdir}/ardour2/ardour-2.1
