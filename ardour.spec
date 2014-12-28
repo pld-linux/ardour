@@ -19,7 +19,7 @@ BuildRequires:	boost-devel
 BuildRequires:	cairomm-devel
 BuildRequires:	fftw3-single-devel >= 3
 BuildRequires:	flac-devel
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.10.1
 BuildRequires:	gtk+2-devel >= 2:2.8.1
 BuildRequires:	gtkmm-devel >= 2.8.0
