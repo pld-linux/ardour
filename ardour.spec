@@ -1,15 +1,15 @@
-# TODO
-# - make it not to parse /proc/cpuinfo
 Summary:	Multitrack hard disk recorder
 Summary(pl.UTF-8):	Wielościeżkowy magnetofon nagrywający na twardym dysku
 Name:		ardour
 Version:	5.4.0
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		X11/Applications/Sound
 Source0:	https://community.ardour.org/srctar/Ardour-%{version}.tar.bz2
 # Source0-md5:	ca71c6aa7f804a81539a0c25ea2427a5
 Source1:	%{name}.desktop
+Patch0:		localedir.patch
+Patch1:		no_proc_build.patch
 URL:		http://ardour.org/
 BuildRequires:	alsa-lib-devel >= 0.9.0
 BuildRequires:	aubio-devel >= 0.4.0
@@ -24,7 +24,6 @@ BuildRequires:	fontconfig-devel
 BuildRequires:	glib2-devel >= 1:2.28
 BuildRequires:	gtk+2-devel >= 2:2.12.1
 BuildRequires:	gtkmm-devel >= 2.8
-BuildRequires:	gtkmm-devel >= 2.8
 BuildRequires:	jack-audio-connection-kit-devel >= 0.121
 BuildRequires:	libarchive-devel >= 3.0.0
 BuildRequires:	liblo-devel >= 0.26
@@ -36,7 +35,6 @@ BuildRequires:	libsndfile-devel >= 1.0.18
 BuildRequires:	libusb-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	lilv-devel >= 0.21.3
-BuildRequires:	lv2-devel >= 1.0.0
 BuildRequires:	lv2-devel >= 1.10.0
 BuildRequires:	pangomm-devel >= 1.4
 BuildRequires:	rubberband-devel
@@ -48,6 +46,16 @@ BuildRequires:	vamp-devel >= 2.1
 BuildRequires:	xorg-lib-libX11-devel >= 1.1
 Requires:	jack-audio-connection-kit-libs >= 0.121
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_noautoprovfiles	%{_libdir}/(ardour5|lv2)
+%define		_noautoreq 	^libardour.* libaudiographer.so.0 libcanvas.so.0 libevoral.so.0 libgtkmm2ext.so.0 libmidipp.so.4 libpbd.so.4 libptformat.so.0 libqmdsp.so.0 libtimecode.so
+
+# Unresolved symbols:
+#	_Z10vstfx_exitv
+#	_Z10vstfx_initPv
+#	_Z20vstfx_destroy_editorP9_VSTState
+# those are defined in the executable
+%define         skip_post_check_so      libardour.so.*
 
 %description
 A "professional" multitrack, multichannel audio recorder and DAW for
@@ -64,6 +72,9 @@ MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 %prep
 %setup -q -n Ardour-%{version}
 
+%patch0 -p1
+%patch1 -p1
+
 %build
 export CC="%{__cc}"
 export CXX="%{__cxx}"
@@ -74,7 +85,7 @@ export LDFLAGS="%{rpmldflags}"
 ./waf configure \
 	--prefix=%{_prefix} \
 	--bindir=%{_bindir} \
-	--configdir=%{_sysconfdir}/etc \
+	--configdir=%{_sysconfdir} \
 	--includedir=%{_datadir} \
 	--datadir=%{_datadir} \
 	--libdir=%{_libdir} \
@@ -89,13 +100,20 @@ export LDFLAGS="%{rpmldflags}"
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
-#FIXME
+./waf install \
+	--destdir=$RPM_BUILD_ROOT \
+	--prefix=%{_prefix} \
+	--bindir=%{_bindir} \
+	--configdir=%{_sysconfdir} \
+	--includedir=%{_datadir} \
+	--datadir=%{_datadir} \
+	--libdir=%{_libdir} \
+	--mandir=%{_mandir} \
 
-#install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
-#cp -a gtk2_ardour/icons/ardour_icon_48px.png $RPM_BUILD_ROOT%{_pixmapsdir}/ardour.png
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+cp -a gtk2_ardour/icons/application-x-ardour_48px.png $RPM_BUILD_ROOT%{_pixmapsdir}/ardour.png
 
-## it shouldn't be there
-#rm -f $RPM_BUILD_ROOT%{_datadir}/ardour/libardour.{la,a}
+rm -r $RPM_BUILD_ROOT%{_localedir}/{pt_PT,zh}
 
 %find_lang %{name} --all-name
 
@@ -104,33 +122,23 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc DOCUMENTATION/{AUTHORS,CONTRIBUTORS,FAQ,TRANSLATORS}
-%lang(es) %doc DOCUMENTATION/{AUTHORS.es,CONTRIBUTORS.es,README.es}
-%lang(fr) %doc DOCUMENTATION/README.fr
-%lang(it) %doc DOCUMENTATION/README.it
-%lang(ru) %doc DOCUMENTATION/README.ru
-%dir %{_sysconfdir}/ardour2
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour2/*.conf
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour2/*.rc
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour2/ardour.bindings
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour2/ardour.menus
-%attr(755,root,root) %{_bindir}/ardour2
-%{_datadir}/ardour2
+%doc README
+%dir %{_sysconfdir}/ardour5
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/ardour.keys
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/ardour.menus
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/clearlooks.rc
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/default_ui_config
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/system_config
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/trx.menus
+%attr(755,root,root) %{_bindir}/ardour5
+%attr(755,root,root) %{_bindir}/ardour5-lua
+%{_datadir}/ardour5
 %{_desktopdir}/ardour.desktop
 %{_pixmapsdir}/ardour.png
 
-%dir %{_libdir}/ardour2
-%attr(755,root,root) %{_libdir}/ardour2/ardour-2.1
-%attr(755,root,root) %{_libdir}/ardour2/libardour.so
-%attr(755,root,root) %{_libdir}/ardour2/libardour_cp.so
-%attr(755,root,root) %{_libdir}/ardour2/libgtkmm2ext.so
-%attr(755,root,root) %{_libdir}/ardour2/libmidi++.so
-%attr(755,root,root) %{_libdir}/ardour2/libpbd.so
-%attr(755,root,root) %{_libdir}/ardour2/libsndfile-ardour.so
-%dir %{_libdir}/ardour2/engines
-%attr(755,root,root) %{_libdir}/ardour2/engines/libclearlooks.so
-%dir %{_libdir}/ardour2/surfaces
-%attr(755,root,root) %{_libdir}/ardour2/surfaces/libardour_genericmidi.so
-%attr(755,root,root) %{_libdir}/ardour2/surfaces/libardour_mackie.so
-%attr(755,root,root) %{_libdir}/ardour2/surfaces/libardour_powermate.so
-%attr(755,root,root) %{_libdir}/ardour2/surfaces/libardour_tranzport.so
+# everything executable there
+%attr(755,root,root) %{_libdir}/ardour5
+
+%dir %{_libdir}/lv2/*.lv2
+%attr(755,root,root) %{_libdir}/lv2/*.lv2/*.so
+%{_libdir}/lv2/*.lv2/*.ttl

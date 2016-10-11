@@ -1,0 +1,19 @@
+diff -dur Ardour-5.4.0.orig/wscript Ardour-5.4.0/wscript
+--- Ardour-5.4.0.orig/wscript	2016-09-28 23:25:46.000000000 +0200
++++ Ardour-5.4.0/wscript	2016-10-11 21:53:46.000000000 +0200
+@@ -1265,6 +1265,7 @@
+         bld.env.append_value ('CFLAGS', '-DUSE_TRACKS_CODE_FEATURES')
+         lwrcase_dirname = 'trx'
+ 
++    bld.env['LOCALEDIR'] = os.path.join(bld.env['DATADIR'], 'locale')
+     # configuration files go here
+     bld.env['CONFDIR'] = os.path.join(bld.env['SYSCONFDIR'], lwrcase_dirname)
+     # data files loaded at run time go here
+@@ -1272,7 +1273,6 @@
+     # shared objects loaded at runtime go here (two aliases)
+     bld.env['DLLDIR'] = os.path.join(bld.env['LIBDIR'], lwrcase_dirname)
+     bld.env['LIBDIR'] = bld.env['DLLDIR']
+-    bld.env['LOCALEDIR'] = os.path.join(bld.env['DATADIR'], 'locale')
+     bld.env['lwrcase_dirname'] = lwrcase_dirname;
+ 
+     autowaf.set_recursive()

@@ -2,7 +2,7 @@
 Name=Ardour
 Comment=Multitrack hard disk recorder
 Comment[pl]=Wielościeżkowy magnetofon nagrywający na twardym dysku
-Exec=ardour2
+Exec=ardour5
 Icon=ardour
 Terminal=false
 Type=Application
