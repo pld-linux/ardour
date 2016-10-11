@@ -3,49 +3,50 @@
 Summary:	Multitrack hard disk recorder
 Summary(pl.UTF-8):	Wielościeżkowy magnetofon nagrywający na twardym dysku
 Name:		ardour
-Version:	2.1
-Release:	0.2
+Version:	5.4.0
+Release:	0.1
 License:	GPL
 Group:		X11/Applications/Sound
-Source0:	http://ardour.org/files/releases/%{name}-%{version}.tar.bz2
-# Source0-md5:	18be414a37b832aae23c068ba9fcf8ab
+Source0:	https://community.ardour.org/srctar/Ardour-%{version}.tar.bz2
+# Source0-md5:	ca71c6aa7f804a81539a0c25ea2427a5
 Source1:	%{name}.desktop
-Patch0:		%{name}-c++.patch
-Patch1:		%{name}-opt.patch
-Patch2:		%{name}-stdint.patch
 URL:		http://ardour.org/
 BuildRequires:	alsa-lib-devel >= 0.9.0
+BuildRequires:	aubio-devel >= 0.4.0
 BuildRequires:	boost-devel
-BuildRequires:	cairomm-devel
-BuildRequires:	fftw3-single-devel >= 3
-BuildRequires:	flac-devel
-BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.10.1
-BuildRequires:	gtk+2-devel >= 2:2.8.1
-BuildRequires:	gtkmm-devel >= 2.8.0
-BuildRequires:	jack-audio-connection-kit-devel >= 0.103
-BuildRequires:	libart_lgpl >= 2.3.16
-BuildRequires:	libgnomecanvas-devel >= 2.0
-BuildRequires:	libgnomecanvasmm-devel >= 2.12.0
-BuildRequires:	liblo-devel
+BuildRequires:	cairo-devel >= 1.12.0
+BuildRequires:	cairomm-devel >= 1.8.4
+BuildRequires:	curl-devel >= 7.0.0
+BuildRequires:	dbus-devel
+BuildRequires:	fftw3-single-devel
+BuildRequires:	flac-devel >= 1.2.1
+BuildRequires:	fontconfig-devel
+BuildRequires:	glib2-devel >= 1:2.28
+BuildRequires:	gtk+2-devel >= 2:2.12.1
+BuildRequires:	gtkmm-devel >= 2.8
+BuildRequires:	gtkmm-devel >= 2.8
+BuildRequires:	jack-audio-connection-kit-devel >= 0.121
+BuildRequires:	libarchive-devel >= 3.0.0
+BuildRequires:	liblo-devel >= 0.26
 BuildRequires:	liblrdf-devel >= 0.4.0
-BuildRequires:	libraptor-devel >= 1.4.2
-BuildRequires:	libsamplerate-devel >= 0.1.2
+BuildRequires:	libogg-devel >= 1.1.2
+BuildRequires:	libsamplerate-devel >= 0.1.7
 BuildRequires:	libsigc++-devel >= 2.0
-# included libsndfile needs patch (wants FLAC__seekable_stream_decoder_set_read_callback)
-# (in ardour itself only one UI option depends on HAVE_FLAC)
-# internal one used
-#BuildRequires:	libsndfile-devel >= 1.0.0
-BuildRequires:	libstdc++-devel
-BuildRequires:	libtool
+BuildRequires:	libsndfile-devel >= 1.0.18
 BuildRequires:	libusb-devel
-BuildRequires:	libxml2-devel >= 1:2.6.0
-BuildRequires:	libxslt-devel
-BuildRequires:	pkgconfig >= 1:0.20
-BuildRequires:	python >= 2.3.4
-BuildRequires:	scons >= 0.96
-BuildRequires:	soundtouch-devel >= 1.3.1
-Requires:	jack-audio-connection-kit-libs >= 0.103
+BuildRequires:	libxml2-devel
+BuildRequires:	lilv-devel >= 0.21.3
+BuildRequires:	lv2-devel >= 1.0.0
+BuildRequires:	lv2-devel >= 1.10.0
+BuildRequires:	pangomm-devel >= 1.4
+BuildRequires:	rubberband-devel
+BuildRequires:	serd-devel >= 0.14.0
+BuildRequires:	sratom-devel >= 0.2.0
+BuildRequires:	suil-devel >= 0.6.0
+BuildRequires:	taglib-devel >= 1.6
+BuildRequires:	vamp-devel >= 2.1
+BuildRequires:	xorg-lib-libX11-devel >= 1.1
+Requires:	jack-audio-connection-kit-libs >= 0.121
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -61,55 +62,40 @@ Obsługuje próbki do 32 bitów, 24+ kanałów do 96kHz, pełną kontrolę
 MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 
 %prep
-%setup -q
-%patch0 -p1
-# NEEDS UPDATE for scons
-#%patch1 -p1
-%patch2 -p1
+%setup -q -n Ardour-%{version}
 
 %build
-# Make sure we have /proc mounted - it searches for flags from there
-if [ ! -f /proc/cpuinfo ]; then
-	echo "You need to have /proc mounted in order to build this package!"
-	exit 1
-fi
+export CC="%{__cc}"
+export CXX="%{__cxx}"
+export CFLAGS="%{rpmcflags}"
+export CXXFLAGS="%{rpmcxxflags}"
+export LDFLAGS="%{rpmldflags}"
 
-CXX="%{__cxx}" \
-CC="%{__cc}" \
-%scons \
-	PREFIX=%{_prefix} \
-	SYSLIBS=1 \
-%ifarch %{x8664}
-	DIST_TARGET=x86_64
-%else
-%ifarch %{ix86}
-	DIST_TARGET=i386
-%else
-	DIST_TARGET=none
-%endif
-%endif
+./waf configure \
+	--prefix=%{_prefix} \
+	--bindir=%{_bindir} \
+	--configdir=%{_sysconfdir}/etc \
+	--includedir=%{_datadir} \
+	--datadir=%{_datadir} \
+	--libdir=%{_libdir} \
+	--mandir=%{_mandir} \
+	--lv2 \
+	--lv2dir=%{_libdir}/lv2 \
+	--cxx11
+
+./waf build -v
 
 %install
-# Make sure we have /proc mounted - it searches for flags from there
-if [ ! -f /proc/cpuinfo ]; then
-	echo "You need to have /proc mounted in order to build this package!"
-	exit 1
-fi
-
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
-%scons install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	PREFIX=%{_prefix} \
-	GTK=yes
-#	KSI=yes
+#FIXME
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
-cp -a gtk2_ardour/icons/ardour_icon_48px.png $RPM_BUILD_ROOT%{_pixmapsdir}/ardour.png
+#install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+#cp -a gtk2_ardour/icons/ardour_icon_48px.png $RPM_BUILD_ROOT%{_pixmapsdir}/ardour.png
 
-# it shouldn't be there
-rm -f $RPM_BUILD_ROOT%{_datadir}/ardour/libardour.{la,a}
+## it shouldn't be there
+#rm -f $RPM_BUILD_ROOT%{_datadir}/ardour/libardour.{la,a}
 
 %find_lang %{name} --all-name
 
