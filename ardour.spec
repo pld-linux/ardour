@@ -1,12 +1,12 @@
 Summary:	Multitrack hard disk recorder
 Summary(pl.UTF-8):	Wielościeżkowy magnetofon nagrywający na twardym dysku
 Name:		ardour
-Version:	5.4.0
-Release:	2
+Version:	5.8.0
+Release:	1
 License:	GPL
 Group:		X11/Applications/Sound
 Source0:	https://community.ardour.org/srctar/Ardour-%{version}.tar.bz2
-# Source0-md5:	ca71c6aa7f804a81539a0c25ea2427a5
+# Source0-md5:	80e679ca69c0c55ddf76cb292d572086
 Source1:	%{name}.desktop
 Patch0:		localedir.patch
 Patch1:		no_proc_build.patch
@@ -22,8 +22,9 @@ BuildRequires:	fftw3-single-devel
 BuildRequires:	flac-devel >= 1.2.1
 BuildRequires:	fontconfig-devel
 BuildRequires:	glib2-devel >= 1:2.28
-BuildRequires:	gtk+2-devel >= 2:2.12.1
+BuildRequires:	gtk+2-devel >= 2:2.18
 BuildRequires:	gtkmm-devel >= 2.8
+BuildRequires:	itstool >= 2.0.0
 BuildRequires:	jack-audio-connection-kit-devel >= 0.121
 BuildRequires:	libarchive-devel >= 3.0.0
 BuildRequires:	liblo-devel >= 0.26
@@ -39,9 +40,11 @@ BuildRequires:	lv2-devel >= 1.10.0
 BuildRequires:	pangomm-devel >= 1.4
 BuildRequires:	rubberband-devel
 BuildRequires:	serd-devel >= 0.14.0
+BuildRequires:	sord-devel >= 0.8.0
 BuildRequires:	sratom-devel >= 0.2.0
 BuildRequires:	suil-devel >= 0.6.0
 BuildRequires:	taglib-devel >= 1.6
+BuildRequires:	udev-devel
 BuildRequires:	vamp-devel >= 2.1
 BuildRequires:	xorg-lib-libX11-devel >= 1.1
 Requires:	jack-audio-connection-kit-libs >= 0.121
@@ -92,15 +95,17 @@ export LDFLAGS="%{rpmldflags}"
 	--mandir=%{_mandir} \
 	--lv2 \
 	--lv2dir=%{_libdir}/lv2 \
-	--cxx11
+	--cxx11 \
+	--freedesktop
 
 ./waf build -v
+./waf i18n -v
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
-./waf install \
+./waf install -v \
 	--destdir=$RPM_BUILD_ROOT \
 	--prefix=%{_prefix} \
 	--bindir=%{_bindir} \
@@ -108,7 +113,7 @@ install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 	--includedir=%{_datadir} \
 	--datadir=%{_datadir} \
 	--libdir=%{_libdir} \
-	--mandir=%{_mandir} \
+	--mandir=%{_mandir}
 
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 cp -a gtk2_ardour/icons/application-x-ardour_48px.png $RPM_BUILD_ROOT%{_pixmapsdir}/ardour.png
@@ -131,7 +136,6 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/system_config
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/trx.menus
 %attr(755,root,root) %{_bindir}/ardour5
-%attr(755,root,root) %{_bindir}/ardour5-lua
 %{_datadir}/ardour5
 %{_desktopdir}/ardour.desktop
 %{_pixmapsdir}/ardour.png
