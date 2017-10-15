@@ -1,12 +1,12 @@
 Summary:	Multitrack hard disk recorder
 Summary(pl.UTF-8):	Wielościeżkowy magnetofon nagrywający na twardym dysku
 Name:		ardour
-Version:	5.8.0
+Version:	5.12.0
 Release:	1
 License:	GPL
 Group:		X11/Applications/Sound
 Source0:	https://community.ardour.org/srctar/Ardour-%{version}.tar.bz2
-# Source0-md5:	80e679ca69c0c55ddf76cb292d572086
+# Source0-md5:	cb45f31a59dd5a0da07422e4ac1c44fd
 Source1:	%{name}.desktop
 Patch0:		localedir.patch
 Patch1:		no_proc_build.patch
@@ -51,7 +51,7 @@ Requires:	jack-audio-connection-kit-libs >= 0.121
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoprovfiles	%{_libdir}/(ardour5|lv2)
-%define		_noautoreq 	^libardour.* libaudiographer.so.0 libcanvas.so.0 libevoral.so.0 libgtkmm2ext.so.0 libmidipp.so.4 libpbd.so.4 libptformat.so.0 libqmdsp.so.0 libtimecode.so
+%define		_noautoreq 	^libardour.* libaudiographer.so.0 libcanvas.so.0 libevoral.so.0 libgtkmm2ext.so.0 libmidipp.so.4 libpbd.so.4 libptformat.so.0 libqmdsp.so.0 libtimecode.so libwaveview.so.0 libwidgets.so.0
 
 # Unresolved symbols:
 #	_Z10vstfx_exitv
@@ -136,6 +136,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/system_config
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/trx.menus
 %attr(755,root,root) %{_bindir}/ardour5
+%attr(755,root,root) %{_bindir}/ardour5-lua
 %{_datadir}/ardour5
 %{_desktopdir}/ardour.desktop
 %{_pixmapsdir}/ardour.png
