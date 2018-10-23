@@ -2,7 +2,7 @@ Summary:	Multitrack hard disk recorder
 Summary(pl.UTF-8):	Wielościeżkowy magnetofon nagrywający na twardym dysku
 Name:		ardour
 Version:	5.12.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Sound
 Source0:	https://community.ardour.org/srctar/Ardour-%{version}.tar.bz2
@@ -10,6 +10,7 @@ Source0:	https://community.ardour.org/srctar/Ardour-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Patch0:		localedir.patch
 Patch1:		no_proc_build.patch
+Patch2:		ffmpeg_paths.patch
 URL:		http://ardour.org/
 BuildRequires:	alsa-lib-devel >= 0.9.0
 BuildRequires:	aubio-devel >= 0.4.0
@@ -48,6 +49,8 @@ BuildRequires:	udev-devel
 BuildRequires:	vamp-devel >= 2.1
 BuildRequires:	xorg-lib-libX11-devel >= 1.1
 Requires:	jack-audio-connection-kit-libs >= 0.121
+Suggests:	harvid
+Suggests:	xjadeo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoprovfiles	%{_libdir}/(ardour5|lv2)
@@ -77,6 +80,7 @@ MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 export CC="%{__cc}"
