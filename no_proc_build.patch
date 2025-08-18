@@ -2,10 +2,10 @@ diff -dur Ardour-5.4.0.orig/wscript Ardour-5.4.0/wscript
 --- Ardour-5.4.0.orig/wscript	2016-10-11 21:55:23.000000000 +0200
 +++ Ardour-5.4.0/wscript	2016-10-11 21:56:20.000000000 +0200
 @@ -439,7 +439,9 @@
+         if not (opt.arm64 or conf.env['build_target'] == 'armhf' and conf.env['build_target'] == 'aarch64'):
+             compiler_flags.append ("-DARCH_X86")
  
-         compiler_flags.append ("-DARCH_X86")
- 
--        if platform == 'linux' :
+-        if platform == 'linux' and conf.env['build_target'] != 'armhf' and conf.env['build_target'] != 'aarch64':
 +        build_host_supports_sse = True
 +        compiler_flags.append ("-mmmx")
 +        if False :

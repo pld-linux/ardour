@@ -1,64 +1,26 @@
-diff -dur -x '*~' Ardour-5.12.0.orig/gtk2_ardour/po/de.po Ardour-5.12.0/gtk2_ardour/po/de.po
---- Ardour-5.12.0.orig/gtk2_ardour/po/de.po	2017-09-15 22:56:22.000000000 +0200
-+++ Ardour-5.12.0/gtk2_ardour/po/de.po	2018-10-23 19:27:38.331895133 +0200
-@@ -16185,12 +16185,6 @@
- "The tools are included with the %1 releases from ardour.org and also "
- "available with the video-server at http://x42.github.com/harvid/\n"
- "\n"
--"Important: the files need to be installed in $PATH and named ffmpeg_harvid "
--"and ffprobe_harvid.\n"
--"If you already have a suitable ffmpeg installation on your system, we "
--"recommend creating symbolic links from ffmpeg to ffmpeg_harvid and from "
--"ffprobe to ffprobe_harvid.\n"
--"\n"
- "see also http://manual.ardour.org/video-timeline/setup/"
- msgstr ""
- "Auf diesem System konnte keine ffmpeg-Installation gefunden werden.\n"
-@@ -16200,12 +16194,6 @@
- "Die Werkzeuge sind in den %1-Veröffentlichungen von ardour.org enthalten und "
- "ebenfalls mit dem Videoserver auf http://x42.github.com/harvid/ erhältlich.\n"
- "\n"
--"Wichtig: Die Dateien müssen in $PATH installiert werden und nach "
--"ffmpeg_harvid und ffprobe_harvid umbenannt werden.\n"
--"Falls Sie eine geeignete ffmpeg-Installation auf Ihrem System haben, "
--"empfehlen wir, symbolische Verknüpfungen von ffmpeg auf ffmpeg_harvid und "
--"von ffprobe auf ffprobe_harvid zu erzeugen.\n"
--"\n"
- "Sehen Sie auch  http://manual.ardour.org/video-timeline/setup/"
- 
- #: transcode_video_dialog.cc:56
 diff -dur -x '*~' Ardour-5.12.0.orig/gtk2_ardour/transcode_ffmpeg.cc Ardour-5.12.0/gtk2_ardour/transcode_ffmpeg.cc
 --- Ardour-5.12.0.orig/gtk2_ardour/transcode_ffmpeg.cc	2017-09-15 22:56:22.000000000 +0200
 +++ Ardour-5.12.0/gtk2_ardour/transcode_ffmpeg.cc	2018-10-23 19:27:09.621396487 +0200
 @@ -60,10 +60,6 @@
- 					"The tools are included with the %1 releases from ardour.org "
- 					"and also available with the video-server at http://x42.github.com/harvid/\n"
- 					"\n"
--					"Important: the files need to be installed in $PATH and named ffmpeg_harvid and ffprobe_harvid.\n"
--					"If you already have a suitable ffmpeg installation on your system, we recommend creating "
--					"symbolic links from ffmpeg to ffmpeg_harvid and from ffprobe to ffprobe_harvid.\n"
--					"\n"
- 					"see also http://manual.ardour.org/video-timeline/setup/"
- 				 ), PROGRAM_NAME) << endmsg;
- 		return;
-diff -dur -x '*~' Ardour-5.12.0.orig/gtk2_ardour/video_tool_paths.cc Ardour-5.12.0/gtk2_ardour/video_tool_paths.cc
---- Ardour-5.12.0.orig/gtk2_ardour/video_tool_paths.cc	2017-09-15 22:56:22.000000000 +0200
-+++ Ardour-5.12.0/gtk2_ardour/video_tool_paths.cc	2018-10-23 19:26:43.792949900 +0200
+ 		                             "The tools are included with the %1 releases from ardour.org "
+ 		                             "and also available with the video-server at http://x42.github.com/harvid/\n"
+ 		                             "\n"
+-		                             "Important: the files need to be installed in $PATH and named ffmpeg_harvid and ffprobe_harvid.\n"
+-		                             "If you already have a suitable ffmpeg installation on your system, we recommend creating "
+-		                             "symbolic links from ffmpeg to ffmpeg_harvid and from ffprobe to ffprobe_harvid.\n"
+-		                             "\n"
+ 		                             "see also http://manual.ardour.org/video-timeline/setup/"),
+ 		                           PROGRAM_NAME)
+ 		        << endmsg;
+diff -dur -x '*~' Ardour-5.12.0.orig/libs/ardour/video_tools_paths.cc Ardour-5.12.0/libs/ardour/video_tools_paths.cc
+--- Ardour-5.12.0.orig/libs/ardour/video_tools_paths.cc	2017-09-15 22:56:22.000000000 +0200
++++ Ardour-5.12.0/libs/ardour/video_tools_paths.cc	2018-10-23 19:26:43.792949900 +0200
 @@ -166,7 +166,7 @@
- 	ffprobe_exe = X_("");
+ 	_ffprobe_exe = X_("");
  
  	std::string ff_file_path;
 -	if (find_file (Searchpath(Glib::getenv("PATH")), X_("ffmpeg_harvid"), ff_file_path)) {
 +	if (find_file (Searchpath(Glib::getenv("PATH")), X_("ffmpeg"), ff_file_path)) {
- 		ffmpeg_exe = ff_file_path;
- 	}
- #ifdef PLATFORM_WINDOWS
-@@ -194,7 +194,7 @@
- 	}
- #endif
- 
--	if (find_file (Searchpath(Glib::getenv("PATH")), X_("ffprobe_harvid"), ff_file_path)) {
-+	if (find_file (Searchpath(Glib::getenv("PATH")), X_("ffprobe"), ff_file_path)) {
- 		ffprobe_exe = ff_file_path;
+ 		_ffmpeg_exe = ff_file_path;
  	}
  #ifdef PLATFORM_WINDOWS

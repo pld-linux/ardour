@@ -2,8 +2,8 @@ diff -dur Ardour-5.4.0.orig/wscript Ardour-5.4.0/wscript
 --- Ardour-5.4.0.orig/wscript	2016-09-28 23:25:46.000000000 +0200
 +++ Ardour-5.4.0/wscript	2016-10-11 21:53:46.000000000 +0200
 @@ -1265,6 +1265,7 @@
-         bld.env.append_value ('CFLAGS', '-DUSE_TRACKS_CODE_FEATURES')
-         lwrcase_dirname = 'trx'
+     # set up target directories
+     lwrcase_dirname = 'ardour' + bld.env['MAJOR']
  
 +    bld.env['LOCALEDIR'] = os.path.join(bld.env['DATADIR'], 'locale')
      # configuration files go here
@@ -14,6 +14,6 @@ diff -dur Ardour-5.4.0.orig/wscript Ardour-5.4.0/wscript
      bld.env['DLLDIR'] = os.path.join(bld.env['LIBDIR'], lwrcase_dirname)
      bld.env['LIBDIR'] = bld.env['DLLDIR']
 -    bld.env['LOCALEDIR'] = os.path.join(bld.env['DATADIR'], 'locale')
-     bld.env['lwrcase_dirname'] = lwrcase_dirname;
+     bld.env['lwrcase_dirname'] = lwrcase_dirname
  
      autowaf.set_recursive()

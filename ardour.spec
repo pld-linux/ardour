@@ -1,12 +1,15 @@
 Summary:	Multitrack hard disk recorder
 Summary(pl.UTF-8):	Wielościeżkowy magnetofon nagrywający na twardym dysku
 Name:		ardour
-Version:	5.12.0
-Release:	4
+Version:	8.12
+Release:	0.1
 License:	GPL
 Group:		X11/Applications/Sound
-Source0:	https://community.ardour.org/srctar/Ardour-%{version}.tar.bz2
-# Source0-md5:	cb45f31a59dd5a0da07422e4ac1c44fd
+# Aredour does not allow fetching github tags :/
+# https://tracker.ardour.org/view.php?id=7328
+# https://github.com/Ardour/ardour/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:	ardour-8.12.tar.xz
+# Source0-md5:	655db71e5511f2e26b82d031576433c4
 Source1:	%{name}.desktop
 Patch0:		localedir.patch
 Patch1:		no_proc_build.patch
@@ -76,8 +79,7 @@ Obsługuje próbki do 32 bitów, 24+ kanałów do 96kHz, pełną kontrolę
 MMC, niedestruktywny, nieliniowy edytor oraz wtyczki LADSPA.
 
 %prep
-%setup -q -n Ardour-%{version}
-
+%setup -q
 %patch -P0 -p1
 %patch -P1 -p1
 %patch -P2 -p1
@@ -98,8 +100,7 @@ export LDFLAGS="%{rpmldflags}"
 	--libdir=%{_libdir} \
 	--mandir=%{_mandir} \
 	--lv2 \
-	--lv2dir=%{_libdir}/lv2 \
-	--cxx11 \
+	--cxx17 \
 	--freedesktop
 
 ./waf build -v
@@ -122,7 +123,7 @@ install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 cp -a gtk2_ardour/icons/application-x-ardour_48px.png $RPM_BUILD_ROOT%{_pixmapsdir}/ardour.png
 
-rm -r $RPM_BUILD_ROOT%{_localedir}/{pt_PT,zh}
+#rm -r $RPM_BUILD_ROOT%{_localedir}/{pt_PT,zh}
 
 %find_lang %{name} --all-name
 
@@ -133,20 +134,20 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README
 %dir %{_sysconfdir}/ardour5
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/ardour.keys
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/ardour.menus
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/clearlooks.rc
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/default_ui_config
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/system_config
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour5/trx.menus
-%attr(755,root,root) %{_bindir}/ardour5
-%attr(755,root,root) %{_bindir}/ardour5-lua
-%{_datadir}/ardour5
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour8/ardour.keys
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour8/ardour.menus
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour8/clearlooks.rc
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour8/default_ui_config
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour8/system_config
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour8/trx.menus
+%attr(755,root,root) %{_bindir}/ardour8
+%attr(755,root,root) %{_bindir}/ardour8-lua
+%{_datadir}/ardour8
 %{_desktopdir}/ardour.desktop
 %{_pixmapsdir}/ardour.png
 
 # everything executable there
-%attr(755,root,root) %{_libdir}/ardour5
+%attr(755,root,root) %{_libdir}/ardour8
 
 %dir %{_libdir}/lv2/*.lv2
 %attr(755,root,root) %{_libdir}/lv2/*.lv2/*.so
