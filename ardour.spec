@@ -2,7 +2,7 @@ Summary:	Multitrack hard disk recorder
 Summary(pl.UTF-8):	Wielościeżkowy magnetofon nagrywający na twardym dysku
 Name:		ardour
 Version:	8.12
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		X11/Applications/Sound
 # Aredour does not allow fetching github tags:/
