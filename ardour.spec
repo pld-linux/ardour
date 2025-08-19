@@ -5,12 +5,11 @@ Version:	8.12
 Release:	0.1
 License:	GPL
 Group:		X11/Applications/Sound
-# Aredour does not allow fetching github tags :/
+# Aredour does not allow fetching github tags:/
 # https://tracker.ardour.org/view.php?id=7328
 # https://github.com/Ardour/ardour/archive/%{version}/%{name}-%{version}.tar.gz
-Source0:	ardour-8.12.tar.xz
+Source0:	%{name}-%{version}.tar.xz
 # Source0-md5:	655db71e5511f2e26b82d031576433c4
-Source1:	%{name}.desktop
 Patch0:		localedir.patch
 Patch1:		no_proc_build.patch
 Patch2:		ffmpeg_paths.patch
@@ -57,14 +56,23 @@ Suggests:	xjadeo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoprovfiles	%{_libdir}/(ardour5|lv2)
-%define		_noautoreq 	^libardour.* libaudiographer.so.0 libcanvas.so.0 libevoral.so.0 libgtkmm2ext.so.0 libmidipp.so.4 libpbd.so.4 libptformat.so.0 libqmdsp.so.0 libtimecode.so libwaveview.so.0 libwidgets.so.0
+%define		_noautoreq	^libardour.* libaudiographer.so.0 libcanvas.so.0 libevoral.so.0 libgtkmm2ext.so.0 libmidipp.so.4 libpbd.so.4 libptformat.so.0 libqmdsp.so.0 libtimecode.so libwaveview.so.0 libwidgets.so.0
 
-# Unresolved symbols:
+# False negatives:
+# Unresolved symbols found in: libydk.so.*
+#	XRenderQueryExtension
+# Unresolved symbols found in: libytk.so.*
+#	FcInitReinitialize
+#	FcConfigUptoDate
+# Those are defined in the executable
+# Unresolved symbols found in: libardour.so.*
 #	_Z10vstfx_exitv
 #	_Z10vstfx_initPv
 #	_Z20vstfx_destroy_editorP9_VSTState
-# those are defined in the executable
-%define         skip_post_check_so      libardour.so.*
+#	_ZN8Temporal8TempoMap12_tempo_map_pE
+# Unresolved symbols found in: libwaveview.so.*
+#	_ZN8Temporal8TempoMap12_tempo_map_pE
+%define		skip_post_check_so	libardour.so.* libydk.so.* libytk.so.* libwaveview.so.*
 
 %description
 A "professional" multitrack, multichannel audio recorder and DAW for
@@ -99,7 +107,7 @@ export LDFLAGS="%{rpmldflags}"
 	--datadir=%{_datadir} \
 	--libdir=%{_libdir} \
 	--mandir=%{_mandir} \
-	--lv2 \
+	--lv2=%{_libdir}/lv2 \
 	--cxx17 \
 	--freedesktop
 
@@ -120,10 +128,9 @@ install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 	--libdir=%{_libdir} \
 	--mandir=%{_mandir}
 
-cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 cp -a gtk2_ardour/icons/application-x-ardour_48px.png $RPM_BUILD_ROOT%{_pixmapsdir}/ardour.png
 
-#rm -r $RPM_BUILD_ROOT%{_localedir}/{pt_PT,zh}
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{pt_PT,zh}
 
 %find_lang %{name} --all-name
 
@@ -133,18 +140,25 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc README
-%dir %{_sysconfdir}/ardour5
+%dir %{_sysconfdir}/ardour8
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour8/ardour.keys
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour8/ardour.menus
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour8/clearlooks.ardoursans.rc
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour8/clearlooks.rc
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour8/default_ui_config
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour8/system_config
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ardour8/trx.menus
 %attr(755,root,root) %{_bindir}/ardour8
+%attr(755,root,root) %{_bindir}/ardour8-copy-mixer
+%attr(755,root,root) %{_bindir}/ardour8-export
 %attr(755,root,root) %{_bindir}/ardour8-lua
+%attr(755,root,root) %{_bindir}/ardour8-new_empty_session
+%attr(755,root,root) %{_bindir}/ardour8-new_session
 %{_datadir}/ardour8
-%{_desktopdir}/ardour.desktop
 %{_pixmapsdir}/ardour.png
+%{_datadir}/appdata/ardour8.appdata.xml
+%{_desktopdir}/ardour8.desktop
+%{_iconsdir}/hicolor/*x*/apps/ardour8.png
+%{_datadir}/mime/packages/ardour.xml
 
 # everything executable there
 %attr(755,root,root) %{_libdir}/ardour8
