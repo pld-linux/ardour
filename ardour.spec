@@ -38,6 +38,7 @@ BuildRequires:	libogg-devel >= 1:1.1.2
 BuildRequires:	libpng-devel
 BuildRequires:	libsamplerate-devel >= 0.1.7
 BuildRequires:	libsigc++-devel >= 2.0
+BuildRequires:	libstdc++-devel >= 6:7
 BuildRequires:	libsndfile-devel >= 1.0.18
 BuildRequires:	libusb-devel >= 1.0.16
 BuildRequires:	libwebsockets-devel >= 2.0.0
