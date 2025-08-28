@@ -1,0 +1,11 @@
+--- ardour-8.12/wscript.orig	2025-08-28 17:35:39.539113919 +0200
++++ ardour-8.12/wscript	2025-08-28 17:38:00.025059498 +0200
+@@ -1257,7 +1257,7 @@ def configure(conf):
+                   define_name= 'HAVE_RUBBERBAND_3_0_0',
+     fragment = '''
+ #include <rubberband/RubberBandStretcher.h>
+-#if RUBBERBAND_API_MAJOR_VERSION >= 2 && RUBBERBAND_API_MINOR_VERSION >= 7
++#if (RUBBERBAND_API_MAJOR_VERSION > 2) || RUBBERBAND_API_MAJOR_VERSION == 2 && RUBBERBAND_API_MINOR_VERSION >= 7
+ int main () { return 0; }
+ #else
+ #error

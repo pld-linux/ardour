@@ -1,0 +1,38 @@
+--- ardour-8.12/libs/tk/ydk/wscript.orig	2025-08-18 02:04:54.000000000 +0200
++++ ardour-8.12/libs/tk/ydk/wscript	2025-08-28 17:39:02.438578527 +0200
+@@ -161,6 +161,7 @@ def configure(conf):
+             autowaf.check_pkg(conf, 'gio-unix-2.0', uselib_store='GIO-UNIX', mandatory=True)
+             autowaf.check_pkg(conf, 'xrandr', uselib_store='RANDR', mandatory=False, atleast_version='1.2.99')
+             autowaf.check_pkg(conf, 'xrandr', uselib_store='RANDR15', mandatory=False, atleast_version='1.5.0')
++            autowaf.check_pkg(conf, 'xrender', uselib_store='RENDER', mandatory=True)
+             conf.check_cc(header_name='X11/extensions/Xinerama.h',
+                           lib='Xinerama', uselib_store="XINERAMA", define_name='HAVE_XFREE_XINERAMA',
+                           execute = False, mandatory=False)
+@@ -202,7 +203,7 @@ def build(bld):
+         obj.ldflags          = '-limm32 -lole32 -lgdi32 -lcomdlg32 -lwinspool -lcomctl32 -luuid'
+     else:
+         obj.source    = libydk_sources + libydk_x11_sources
+-        obj.uselib   += ' GIO-UNIX X11 XEXT XINERAMA RANDR'
++        obj.uselib   += ' GIO-UNIX X11 XEXT XINERAMA RANDR RENDER'
+         obj.includes        += ['ydk/x11/gdk', 'ydk/gdk/x11']
+         obj.export_includes += ['ydk/gdk']
+         obj.export_includes += ['ydk/x11']
+--- ardour-8.12/libs/tk/ytk/wscript.orig	2025-08-18 02:04:54.000000000 +0200
++++ ardour-8.12/libs/tk/ytk/wscript	2025-08-28 17:40:09.341567369 +0200
+@@ -267,6 +267,7 @@ def configure(conf):
+         if conf.env['build_target'] != 'mingw' and sys.platform != 'darwin': # Linux
+             autowaf.check_pkg(conf, 'x11', uselib_store='X11', system=True, mandatory=True)
+             autowaf.check_pkg(conf, 'xext', uselib_store='XEXT', system=True, mandatory=True)
++            autowaf.check_pkg(conf, 'fontconfig', uselib_store='FONTCONFIG', system=True, mandatory=True)
+ 
+ def build(bld):
+     if not bld.is_defined('YTK'):
+@@ -305,7 +306,7 @@ def build(bld):
+         obj.linkflags = ['-Wl,--export-all-symbols']
+     else:
+         obj.source    = libytk_sources +  libytk_x11_sources
+-        obj.uselib   += ' X11 XEXT'
++        obj.uselib   += ' X11 XEXT FONTCONFIG'
+ 
+     # i18n
+     if bld.is_defined('ENABLE_NLS'):
